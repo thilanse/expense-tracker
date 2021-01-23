@@ -1,0 +1,7 @@
+{% extends 'tracker/base.html' %}
+{% block content %}
+  <h1>Welcome to the Expense Tracker</h1>
+  {% for expense in expenses %}
+    <h3>{{ expense.amount }} - {{ expense.reason }}</h3>
+  {% endfor %}
+{% endblock content%}

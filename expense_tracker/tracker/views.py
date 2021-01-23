@@ -1,5 +1,7 @@
 from django.shortcuts import render
-from django.http.response import HttpResponse
+from .models import Expense
 
 def home(request):
-  return HttpResponse("Hello, world")
+  expenses = Expense.objects.all()
+  context = { 'expenses': expenses }
+  return render(request, 'tracker/home.html', context)
