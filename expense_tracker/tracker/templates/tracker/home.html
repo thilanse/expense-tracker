@@ -1,6 +1,14 @@
 {% extends 'tracker/base.html' %}
 {% block content %}
   <h1>Welcome to the Expense Tracker</h1>
+  <div>
+    <form action="{% url 'tracker-home' %}" method="POST">
+      {% csrf_token %}
+      {{ form }}
+      {{form.errors}}
+      <button type="submit">Add</button>
+    </form>
+  </div>
   {% for expense in expenses %}
     <h3>{{ expense.amount }} - {{ expense.reason }}</h3>
   {% endfor %}
