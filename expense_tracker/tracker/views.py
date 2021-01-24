@@ -39,7 +39,7 @@ def update_expense(request, pk):
     'update_form': update_form,
     'form': form
   }
-  return render(request, 'tracker/expense_update.html', context)
+  return render(request, 'tracker/expense_list.html', context)
 
 def delete_expense(request, pk):
   expense_to_delete = Expense.objects.get(id=pk)
