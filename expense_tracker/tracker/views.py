@@ -41,6 +41,16 @@ def update_expense(request, pk):
   }
   return render(request, 'tracker/expense_list.html', context)
 
+def confirm_delete_expense(request, pk):
+  form = ExpenseForm()
+  expenses = Expense.objects.order_by('-date_of_expenditure')
+  context = { 
+    'expenses': expenses, 
+    'delete_id': pk, 
+    'form': form
+  }
+  return render(request, 'tracker/expense_list.html', context)
+
 def delete_expense(request, pk):
   expense_to_delete = Expense.objects.get(id=pk)
   expense_to_delete.delete()
