@@ -1,8 +1,30 @@
 {% extends 'tracker/home.html' %}
 {% block expense-container %}
-  {% for expense in expenses %}
-    <h3>{{ expense.amount }} - {{ expense.reason }}</h3>
-    <a href="{% url 'expense-update' expense.id %}">Edit</a>
-    <a href="{% url 'expense-delete' expense.id %}">Delete</a>
-  {% endfor %}
+
+  <ul class="list-group">
+    {% for expense in expenses %}
+      <li class="list-group-item">
+        {% if expense.id == update_id %}
+          <div>
+            <form method="POST">
+              {% csrf_token %}
+              {{ update_form }}
+              {{ update_form.errors }}
+              <button type="submit">Update</button>
+              <a href="{% url 'tracker-home' %}">Cancel</a>
+            </form>
+          </div>
+        {% else %}
+          <h3>{{ expense.amount }} - {{ expense.reason }}</h3>
+          {% if not update_id %}
+          <div class="col">
+            <a href="{% url 'expense-update' expense.id %}">Edit</a>
+            <a href="{% url 'expense-delete' expense.id %}">Delete</a>
+          </div>
+          {% endif %}
+        {% endif %}
+      </li>
+      
+    {% endfor %}
+  </ul>
 {% endblock expense-container %}
