@@ -1,0 +1,8 @@
+{% extends 'tracker/home.html' %}
+{% block expense-container %}
+  {% for expense in expenses %}
+    <h3>{{ expense.amount }} - {{ expense.reason }}</h3>
+    <a href="{% url 'expense-update' expense.id %}">Edit</a>
+    <a href="{% url 'expense-delete' expense.id %}">Delete</a>
+  {% endfor %}
+{% endblock expense-container %}

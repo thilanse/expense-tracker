@@ -9,7 +9,5 @@
       <button type="submit">Add</button>
     </form>
   </div>
-  {% for expense in expenses %}
-    <h3>{{ expense.amount }} - {{ expense.reason }}</h3>
-  {% endfor %}
+  {% block expense-container %}{% endblock expense-container %}
 {% endblock content%}
