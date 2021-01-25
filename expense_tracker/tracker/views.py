@@ -18,7 +18,7 @@ def home(request):
 
   expenses = Expense.objects.order_by('-date_of_expenditure')
   context = { 'form': form, 'expenses': expenses }
-  return render(request, 'tracker/expense_list.html', context)
+  return render(request, 'tracker/home.html', context)
 
 def update_expense(request, pk):
   expense_to_update = Expense.objects.get(id=pk)
@@ -39,7 +39,7 @@ def update_expense(request, pk):
     'update_form': update_form,
     'form': form
   }
-  return render(request, 'tracker/expense_list.html', context)
+  return render(request, 'tracker/home.html', context)
 
 def confirm_delete_expense(request, pk):
   form = ExpenseForm()
@@ -49,7 +49,7 @@ def confirm_delete_expense(request, pk):
     'delete_id': pk, 
     'form': form
   }
-  return render(request, 'tracker/expense_list.html', context)
+  return render(request, 'tracker/home.html', context)
 
 def delete_expense(request, pk):
   expense_to_delete = Expense.objects.get(id=pk)
