@@ -1,43 +1,69 @@
 {% extends 'tracker/base.html' %}
 {% block content %}
   <h1>Welcome to the Expense Tracker</h1>
-  <div>
-    <form action="{% url 'tracker-home' %}" method="POST">
-      {% csrf_token %}
-      {{ form }}
-      {{form.errors}}
-      <button type="submit">Add</button>
-    </form>
+  <div class="container-fluid">
+
+    <div class="row">
+
+      <div class="col">
+        <div>
+          <form action="{% url 'expense-create' %}" method="POST">
+            <div class="form-group">
+              {% csrf_token %}
+              {{ form }}
+              {{form.errors}}
+            </div>
+            <button type="submit" class="btn btn-primary">Add</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="col">
+        <ul class="list-group">
+          {% for expense in expenses %}
+            <li class="list-group-item">
+              {% if expense.id == update_id %}
+                <div>
+                  <form method="POST" class="form-inline">
+                    {% csrf_token %}
+                    {{ update_form }}
+                    {{ update_form.errors }}
+                    <button type="submit" class="btn btn-primary mb-2">Update</button>
+                    <a href="{% url 'tracker-home' %}">Cancel</a>
+                  </form>
+                </div>
+              {% elif expense.id == delete_id %}
+                <div class="row">
+                  <div class="col">
+                    <h3>Are you sure you want to delete?</h3>
+                  </div>
+                  <div class="col-3">
+                    <a href="{% url 'expense-delete' expense.id %}">Yes</a>
+                    <a href="{% url 'tracker-home' %}">No</a>
+                  </div>
+                </div>
+              {% else %}
+                <div class="row">
+                  <div class="col">
+                    <h3>{{ expense.amount }} - {{ expense.reason }}</h3>
+                  </div>
+                  {% if not update_id and not delete_id %}
+                  <div class="col-3">
+                    <a href="{% url 'expense-update' expense.id %}">Edit</a>
+                    <a href="{% url 'expense-confirm-delete' expense.id %}">Delete</a>
+                  </div>
+                  {% endif %}
+                </div>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="col">
+
+      </div>
+
+    </div>
   </div>
   
-  <ul class="list-group">
-    {% for expense in expenses %}
-      <li class="list-group-item">
-        {% if expense.id == update_id %}
-          <div>
-            <form method="POST">
-              {% csrf_token %}
-              {{ update_form }}
-              {{ update_form.errors }}
-              <button type="submit">Update</button>
-              <a href="{% url 'tracker-home' %}">Cancel</a>
-            </form>
-          </div>
-        {% elif expense.id == delete_id %}
-          <h3>Are you sure you want to delete?</h3>
-          <a href="{% url 'expense-delete' expense.id %}">Yes</a>
-          <a href="{% url 'tracker-home' %}">No</a>
-        {% else %}
-          <h3>{{ expense.amount }} - {{ expense.reason }}</h3>
-          {% if not update_id %}
-          <div class="col">
-            <a href="{% url 'expense-update' expense.id %}">Edit</a>
-            <a href="{% url 'expense-confirm-delete' expense.id %}">Delete</a>
-          </div>
-          {% endif %}
-        {% endif %}
-      </li>
-      
-    {% endfor %}
-  </ul>
 {% endblock content%}
