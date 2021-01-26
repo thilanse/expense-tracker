@@ -53,10 +53,15 @@ def delete_expense(request, pk):
 
 
 def get_home_context():
+  """
+  Creates context required for home page.
+  ie, the form and the list of expenses
+
+  """
+
   form = ExpenseForm()
   expenses = Expense.objects.order_by('-date_of_expenditure')
-  expense_list = get_expenses(expenses)
-  context = { 'form': form, 'expenses': expense_list }
+  context = { 'form': form, 'expenses': get_expenses(expenses) }
   return context
 
 def get_expenses(expenses):
