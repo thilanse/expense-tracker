@@ -4,12 +4,13 @@ from django.contrib.auth.decorators import login_required
 from .models import Expense
 from .forms import ExpenseForm, ExpenseUpdateForm
 
+import itertools
+
+HOME_TEMPLATE = 'tracker/home.html'
+
 @login_required
 def home(request):
-  form = ExpenseForm()
-  expenses = Expense.objects.order_by('-date_of_expenditure')
-  context = { 'form': form, 'expenses': expenses }
-  return render(request, 'tracker/home.html', context)
+  return render(request, HOME_TEMPLATE, get_home_context())
 
 def add_expense(request):
   if request.method == 'POST':
@@ -32,27 +33,34 @@ def update_expense(request, pk):
   else:
     update_form = ExpenseUpdateForm(instance=expense_to_update)
 
-  form = ExpenseForm()
-  expenses = Expense.objects.order_by('-date_of_expenditure')
-  context = { 
-    'expenses': expenses, 
-    'update_id': pk, 
-    'update_form': update_form,
-    'form': form
-  }
-  return render(request, 'tracker/home.html', context)
+  context = get_home_context()
+  context['update_id'] = pk
+  context['update_form'] = update_form
+
+  return render(request, HOME_TEMPLATE, context)
 
 def confirm_delete_expense(request, pk):
-  form = ExpenseForm()
-  expenses = Expense.objects.order_by('-date_of_expenditure')
-  context = { 
-    'expenses': expenses, 
-    'delete_id': pk, 
-    'form': form
-  }
-  return render(request, 'tracker/home.html', context)
+
+  context = get_home_context()
+  context['delete_id'] = pk
+
+  return render(request, HOME_TEMPLATE, context)
 
 def delete_expense(request, pk):
   expense_to_delete = Expense.objects.get(id=pk)
   expense_to_delete.delete()
   return redirect('tracker-home')
+
+
+def get_home_context():
+  form = ExpenseForm()
+  expenses = Expense.objects.order_by('-date_of_expenditure')
+  expense_list = get_expenses(expenses)
+  context = { 'form': form, 'expenses': expense_list }
+  return context
+
+def get_expenses(expenses):
+
+  expenses_grouped_by_year = [{'year': key, 'annual_expenses': list(group)} for key, group in itertools.groupby(expenses, lambda x:x.date_of_expenditure.year)]
+
+  return expenses_grouped_by_year
