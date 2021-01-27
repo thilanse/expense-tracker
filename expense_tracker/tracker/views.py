@@ -5,6 +5,7 @@ from .models import Expense
 from .forms import ExpenseForm, ExpenseUpdateForm
 
 import itertools
+import calendar
 
 HOME_TEMPLATE = 'tracker/home.html'
 
@@ -68,4 +69,24 @@ def get_expenses(expenses):
 
   expenses_grouped_by_year = [{'year': key, 'annual_expenses': list(group)} for key, group in itertools.groupby(expenses, lambda x:x.date_of_expenditure.year)]
 
+  for annual_expense_group in expenses_grouped_by_year:
+    annual_expenses = annual_expense_group['annual_expenses']
+
+    expenses_grouped_by_month = [{'month': key, 'month_name': calendar.month_name[key], 'monthly_expenses': list(group)} for key, group in itertools.groupby(annual_expenses, lambda x: x.date_of_expenditure.month)]
+
+    for monthly_expense_group in expenses_grouped_by_month:
+      monthly_expenses = monthly_expense_group['monthly_expenses']
+
+      expenses_grouped_by_day = [{'day': key, 'week_day_name': get_weekday(annual_expense_group, monthly_expense_group, key), 'daily_expenses': list(group)} for key, group in itertools.groupby(monthly_expenses, lambda x: x.date_of_expenditure.day)]
+      monthly_expense_group['monthly_expenses'] = expenses_grouped_by_day
+
+    annual_expense_group['annual_expenses'] = expenses_grouped_by_month
+
+
   return expenses_grouped_by_year
+  
+
+def get_weekday(annual_expense_group, monthly_expense_group, day):
+  weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+  weekday_idx = calendar.weekday(annual_expense_group['year'], monthly_expense_group['month'], day)
+  return weekdays[weekday_idx]
