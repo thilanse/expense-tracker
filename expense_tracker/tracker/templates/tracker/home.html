@@ -21,12 +21,12 @@
       <div class="col">
         <ul class="list-group">
           {% for annual_expense in expenses %}
-            <h3>{{ annual_expense.year }}</h3>
+            <h3>{{ annual_expense.year }} | Total annual cost: {{ annual_expense.total_annual_cost }}</h3>
 
             {% for annual_expense in annual_expense.annual_expenses %}
-              <h4>{{ annual_expense.month_name }}</h4>
+              <h4>{{ annual_expense.month_name }} | Total month cost: {{ annual_expense.total_monthly_cost }}</h4>
               {% for monthly_expense in annual_expense.monthly_expenses %}
-                <h5>{{ monthly_expense.week_day_name }}, {{ monthly_expense.day }}</h5>
+                <h5>{{ monthly_expense.week_day_name }}, {{ monthly_expense.day }} | Total cost: {{ monthly_expense.total_daily_cost }}</h5>
                 {% for expense in monthly_expense.daily_expenses %}
 
                   <li class="list-group-item">

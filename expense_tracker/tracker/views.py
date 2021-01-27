@@ -77,10 +77,12 @@ def get_expenses(expenses):
     for monthly_expense_group in expenses_grouped_by_month:
       monthly_expenses = monthly_expense_group['monthly_expenses']
 
-      expenses_grouped_by_day = [{'day': key, 'week_day_name': get_weekday(annual_expense_group, monthly_expense_group, key), 'daily_expenses': list(group)} for key, group in itertools.groupby(monthly_expenses, lambda x: x.date_of_expenditure.day)]
+      expenses_grouped_by_day = [get_daily_expense(key, list(group), annual_expense_group, monthly_expense_group) for key, group in itertools.groupby(monthly_expenses, lambda x: x.date_of_expenditure.day)]
       monthly_expense_group['monthly_expenses'] = expenses_grouped_by_day
+      monthly_expense_group['total_monthly_cost'] = sum(daily_expense['total_daily_cost'] for daily_expense in expenses_grouped_by_day)
 
     annual_expense_group['annual_expenses'] = expenses_grouped_by_month
+    annual_expense_group['total_annual_cost'] = sum(monthly_expense['total_monthly_cost'] for monthly_expense in expenses_grouped_by_month)
 
 
   return expenses_grouped_by_year
@@ -90,3 +92,17 @@ def get_weekday(annual_expense_group, monthly_expense_group, day):
   weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
   weekday_idx = calendar.weekday(annual_expense_group['year'], monthly_expense_group['month'], day)
   return weekdays[weekday_idx]
+
+
+def get_total_cost(expenses):
+  return sum(expense.amount for expense in expenses)
+
+def get_daily_expense(day, expenses, annual_expense_group, monthly_expense_group):
+  daily_expense_object = {
+    'day': day, 
+    'week_day_name': get_weekday(annual_expense_group, monthly_expense_group, day), 
+    'total_daily_cost': get_total_cost(expenses),
+    'daily_expenses': expenses
+  } 
+
+  return daily_expense_object
