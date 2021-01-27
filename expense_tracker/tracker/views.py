@@ -6,6 +6,7 @@ from .forms import ExpenseForm, ExpenseUpdateForm
 
 import itertools
 import calendar
+import datetime
 
 HOME_TEMPLATE = 'tracker/home.html'
 
@@ -62,7 +63,17 @@ def get_home_context():
 
   form = ExpenseForm()
   expenses = Expense.objects.order_by('-date_of_expenditure')
-  context = { 'form': form, 'expenses': get_expenses(expenses) }
+  expenses = get_expenses(expenses)
+  current_annual_total, current_month_total, previous_annual_total, previos_month_total = get_month_cost(expenses)
+
+  context = { 
+    'form': form, 
+    'expenses': expenses,
+    'current_annual_cost': current_annual_total,
+    'current_month_cost': current_month_total, 
+    'previous_annual_cost': previous_annual_total,
+    'previous_month_cost': previos_month_total
+  }
   return context
 
 def get_expenses(expenses):
@@ -106,3 +117,23 @@ def get_daily_expense(day, expenses, annual_expense_group, monthly_expense_group
   } 
 
   return daily_expense_object
+
+def get_specific_month_cost(expenses, year, month):
+  annual_expense = next((expense for expense in expenses if expense['year'] == year), None)
+  monthly_expense = next((expense for expense in annual_expense['annual_expenses'] if expense['month'] == month), None)
+
+  return annual_expense, monthly_expense
+
+def get_month_cost(expenses):
+
+  request_date = datetime.date.today().replace(day=1)
+  current_annual_expense, current_monthly_expense = get_specific_month_cost(expenses, request_date.year, request_date.month)
+
+  previous = (request_date - datetime.timedelta(days=1))
+  _ , previous_month_cost = get_specific_month_cost(expenses, previous.year, previous.month)
+
+  previous_year = request_date.replace(month=1) - datetime.timedelta(days=1)
+  previous_annual_cost , _ = get_specific_month_cost(expenses, previous_year.year, previous_year.month)
+
+
+  return current_annual_expense['total_annual_cost'], current_monthly_expense['total_monthly_cost'], previous_annual_cost['total_annual_cost'], previous_month_cost['total_monthly_cost']
