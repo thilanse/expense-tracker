@@ -1,0 +1,129 @@
+.month-name{
+
+}
+
+.monthly-expense-container{
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.monthly-expense-container-header{
+  background-color: rgb(36, 187, 187);
+  padding: 4px 10px 1px 10px;
+}
+
+.monthly-expense-container-content{
+  background-color:  rgb(161, 219, 223);
+  padding: 10px;
+}
+
+.daily-expense-container{
+  /* background-color: rgb(182, 214, 216); */
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 600px;
+}
+
+.daily-expense-container-header{
+  border-bottom: 1px solid black;
+  font-weight: bold;
+}
+
+.daily-expense-table{
+  border-collapse: collapse;
+  /* border: 1px solid black; */
+  width: 100%;
+}
+
+.daily-expense-table tr,td {
+  /* border: 1px solid black; */
+  padding: 5px;
+}
+
+.delete-confirmation{
+  width: 88%;
+}
+
+.delete-confirmation-actions{
+  width: 12%;
+}
+
+.daily-expense-reason{
+  width: 45%;
+}
+
+.daily-expense-reason input[type=text]{
+  width: 100%;
+  border: none;
+  background-color:  rgb(196, 241, 245);
+}
+
+.daily-expense-reason input[type=text]:focus{
+  outline: none;
+}
+
+.daily-expense-amount{
+  width: 15%;
+}
+
+.daily-expense-amount input[type=number]{
+  width: 100%;
+  border: none;
+  background-color:  rgb(196, 241, 245);
+}
+
+.daily-expense-amount input[type=number]:focus{
+  outline: none;
+}
+
+.daily-expense-actions{
+  width: 40%;
+}
+
+.daily-expense-actions a{
+  color: black;
+}
+
+.daily-expense-date{
+  width: 28%;
+}
+
+.daily-expense-date input[type=date]{
+  width: 150px;
+  border: none;
+  background-color:  rgb(196, 241, 245);
+}
+
+.daily-expense-date input[type=date]:focus{
+  outline: none;
+}
+
+.daily-expense-update-actions{
+  width: 12%;
+}
+
+.daily-expense-update-actions a {
+  color: white;
+}
+
+.daily-expense-update-actions button {
+  background-color: green;
+  color: white;
+  padding: 5px 7.5px 4px 7.5px;
+}
+
+.custom-btn{
+  border: none;
+  border-radius: 50%;
+  font-size: x-small;
+}
+
+.cancel-btn{
+  background-color: brown;
+  padding: 5px 9px;
+}
+
+.cancel-btn a {
+  color: white;
+}

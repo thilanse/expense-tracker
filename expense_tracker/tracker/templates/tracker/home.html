@@ -1,11 +1,13 @@
 {% extends 'tracker/base.html' %}
+{% load static %}
+{% load humanize %}
 {% block content %}
   <h1>Welcome to the Expense Tracker</h1>
-  <div class="container-fluid">
+  <div class="container">
 
     <div class="row">
 
-      <div class="col">
+      <div class="col-4">
         <div>
           <form action="{% url 'expense-create' %}" method="POST">
             <div class="form-group">
@@ -24,61 +26,65 @@
         </div>
       </div>
 
-      <div class="col">
+      <div class="col-8">
         <ul class="list-group">
           {% for annual_expense in expenses %}
-            <h3>{{ annual_expense.year }} | Total annual cost: {{ annual_expense.total_annual_cost }}</h3>
+            <!-- <h3>{{ annual_expense.year }} | Total annual cost: {{ annual_expense.total_annual_cost }}</h3> -->
 
-            {% for annual_expense in annual_expense.annual_expenses %}
-              <h4>{{ annual_expense.month_name }} | Total month cost: {{ annual_expense.total_monthly_cost }}</h4>
-              {% for monthly_expense in annual_expense.monthly_expenses %}
-                <h5>{{ monthly_expense.week_day_name }}, {{ monthly_expense.day }} | Total cost: {{ monthly_expense.total_daily_cost }}</h5>
-                {% for expense in monthly_expense.daily_expenses %}
+            {% for monthly_expense in annual_expense.annual_expenses %}
 
-                  <li class="list-group-item">
-                    {% if expense.id == update_id %}
-                      <div>
-                        <form method="POST" class="form-inline">
-                          {% csrf_token %}
-                          {{ update_form }}
-                          {{ update_form.errors }}
-                          <button type="submit" class="btn btn-primary mb-2">Update</button>
-                          <a href="{% url 'tracker-home' %}">Cancel</a>
-                        </form>
-                      </div>
-                    {% elif expense.id == delete_id %}
-                      <div class="row">
-                        <div class="col">
-                          <h3>Are you sure you want to delete?</h3>
-                        </div>
-                        <div class="col-3">
-                          <a href="{% url 'expense-delete' expense.id %}">Yes</a>
-                          <a href="{% url 'tracker-home' %}">No</a>
-                        </div>
-                      </div>
-                    {% else %}
-                      <div class="row">
-                        <div class="col">
-                          <h3>{{ expense.amount }} - {{ expense.reason }}</h3>
-                        </div>
-                        {% if not update_id and not delete_id %}
-                        <div class="col-3">
-                          <a href="{% url 'expense-update' expense.id %}">Edit</a>
-                          <a href="{% url 'expense-confirm-delete' expense.id %}">Delete</a>
-                        </div>
-                        {% endif %}
-                      </div>
-                    {% endif %}
-                  </li>
+              <div class="monthly-expense-container">
+                <div class="monthly-expense-container-header">
+                  <h5 class="month-name">{{ monthly_expense.month_name }}, {{ annual_expense.year }} <span style="float: right;">Rs. {{ monthly_expense.total_monthly_cost|intcomma }}</span></h5>
+                </div>
+                <div class="monthly-expense-container-content">
+                  {% for daily_expense in monthly_expense.monthly_expenses %}
+                    <div class="daily-expense-container">
 
-                {% endfor %}
-              {% endfor %}
+                      <div class="daily-expense-container-header">
+                        {{ daily_expense.week_day_name }}, {{ daily_expense.day }} <span style="float: right;">Rs. {{ daily_expense.total_daily_cost|intcomma }}</span>
+                      </div>
+
+                      <table class="daily-expense-table">
+                        {% for expense in daily_expense.daily_expenses %}
+                          <tr>
+                            {% if expense.id == update_id %}
+                              <form method="POST">
+                                {% csrf_token %}
+                                <td class="daily-expense-reason">{{ update_form.reason }}</td>
+                                <td class="daily-expense-amount">{{ update_form.amount }}</td>
+                                <td class="daily-expense-date">{{ update_form.date_of_expenditure }}</td>
+                                <td class="daily-expense-update-actions">
+                                  <button type="submit" class="custom-btn update-btn"><i class="fas fa-check"></i></i></button>
+                                  <a href="{% url 'tracker-home' %}" class="custom-btn cancel-btn"><i class="fas fa-times"></i></a>
+                                </td>
+                              </form>
+                            {% elif expense.id == delete_id %}
+                              <td colspan="3" class="delete-confirmation">Are you sure you want to delete?</td>
+                              <td class="delete-confirmation-actions">
+                                <a href="{% url 'expense-delete' expense.id %}">Yes</a>
+                                <a href="{% url 'tracker-home' %}">No</a>
+                              </td>
+                            {% else %}
+                              <td class="daily-expense-reason">{{ expense.reason }}</td>
+                              <td class="daily-expense-amount">{{ expense.amount }}</td>
+                              <td class="daily-expense-actions" colspan="2" style="float: right;">
+                                {% if not update_id and not delete_id %}
+                                  <a href="{% url 'expense-update' expense.id %}">Edit</a> |
+                                  <a href="{% url 'expense-confirm-delete' expense.id %}">Delete</a>
+                                {% endif %}
+                              </td>
+                            {% endif %}
+                          </tr>
+                        {% endfor %}
+                      </table>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
             {% endfor %}
           {% endfor %}
         </ul>
-      </div>
-      <div class="col">
-
       </div>
 
     </div>
