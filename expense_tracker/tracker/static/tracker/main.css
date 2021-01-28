@@ -1,10 +1,68 @@
-.month-name{
+.add-expense-container{
+  background-color: rgb(204, 204, 204);
+  padding: 15px;
+  overflow: hidden;
+  font-size: 18px;
+}
 
+.add-expense-container input[type=number]{
+  width: 100%;
+  border: none;
+  padding: 5px;
+}
+
+.add-expense-container input[type=number]:focus{
+  outline: none;
+}
+
+.add-expense-container input[type=date]{
+  width: 100%;
+  border: none;
+  padding: 5px;
+}
+
+.add-expense-container input[type=date]:focus{
+  outline: none;
+}
+
+.add-expense-container input[type=text]{
+  width: 100%;
+  border: none;
+  padding: 5px;
+}
+
+.add-expense-container input[type=text]:focus{
+  outline: none;
+}
+
+.custom-add-btn{
+  background-color: rgb(59, 170, 68);
+  color: white;
+  float: right;
+  border: none;
+}
+
+.custom-add-btn:hover{
+  background-color: rgb(51, 136, 58);
+  cursor: pointer;
+}
+
+.custom-add-btn:focus{
+  outline: none;
+}
+
+.expense-total-summary-container{
+  margin-top: 20px;
+  background-color: rgb(178, 221, 207);
+  padding: 15px;
+}
+
+.expense-total-summary-container table{
+  width: 100%;
 }
 
 .monthly-expense-container{
-  margin-top: 5px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
 .monthly-expense-container-header{
@@ -49,8 +107,12 @@
   width: 12%;
 }
 
+.delete-confirmation-actions a {
+  color: black;
+}
+
 .daily-expense-reason{
-  width: 45%;
+  width: 40%;
 }
 
 .daily-expense-reason input[type=text]{
@@ -64,7 +126,7 @@
 }
 
 .daily-expense-amount{
-  width: 15%;
+  width: 20%;
 }
 
 .daily-expense-amount input[type=number]{
