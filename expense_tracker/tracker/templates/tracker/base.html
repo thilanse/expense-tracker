@@ -9,11 +9,20 @@
 
   <link rel="stylesheet" href="{% static 'tracker/main.css' %}">
 
+  <link rel="stylesheet" href="{% static 'users/main.css' %}">
+
   <link href="{% static 'font-awesome/css/all.css' %}" rel="stylesheet">
 
   <title>Expense Tracker</title>
 </head>
 <body>
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
   {% block content %}{% endblock content %}
 
   <script src="https://use.fontawesome.com/15529b4eaa.js"></script>

@@ -1,0 +1,50 @@
+
+.register-container{
+  background-color:  rgb(202, 238, 234);
+  width: 800px;
+  margin: auto;
+  margin-top: 100px;
+  padding: 30px;
+  /* overflow: hidden; */
+}
+
+.register-container table{
+  margin-bottom: 5px;
+  width: 100%;
+}
+
+.register-input{
+  width: 100%;
+}
+
+.helptext-container{
+  /* background-color: rgb(186, 235, 229); */
+  height: 165px;
+}
+
+.helptext{
+  font-size: 12px;
+}
+
+.helptext ul{
+  padding: 5px;
+  padding-left: 15px;
+  padding-top: 10px;
+  margin: 0;
+}
+
+.register-btn{
+  float: right;
+  margin-top: 15px;
+  margin-right: 5px;
+  background-color: rgb(143, 209, 201);
+  padding: 5px 10px;
+  border: none;
+}
+
+.register-btn:hover{
+  background-color: rgb(116, 190, 182);
+  cursor: pointer;
+}
+
+
