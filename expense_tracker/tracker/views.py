@@ -122,6 +122,9 @@ def get_specific_month_cost(expenses, year, month):
   annual_expense = next((expense for expense in expenses if expense['year'] == year), None)
   monthly_expense = next((expense for expense in annual_expense['annual_expenses'] if expense['month'] == month), None)
 
+  if monthly_expense is None:
+    monthly_expense = { 'total_monthly_cost': 0.0 }
+
   return annual_expense, monthly_expense
 
 def get_month_cost(expenses):
