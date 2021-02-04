@@ -3,7 +3,7 @@
 {% block content %}
   
   <div class="container">
-    <div class="register-container">
+    <div class="auth-container register-container">
       <legend class="border-bottom mb-4">Register Here</legend>
       <!-- <h3>Register Here</h3> -->
       <form method="POST">
@@ -16,7 +16,7 @@
                   <label for="id_username">Username:</label> 
                 </td>
                 <td>
-                  <input class="register-input" type="text" name="username" maxlength="150" autofocus required id="id_username">
+                  <input class="auth-input" type="text" name="username" maxlength="150" autofocus required id="id_username">
                 </td>
               </tr>
               <tr>
@@ -24,7 +24,7 @@
                   <label for="id_email">Email:</label> 
                 </td>
                 <td>
-                  <input class="register-input" type="email" name="email" required id="id_email">
+                  <input class="auth-input" type="email" name="email" required id="id_email">
                 </td>
               </tr>
               <tr>
@@ -32,7 +32,7 @@
                   <label for="id_password1">Password:</label> 
                 </td>
                 <td>
-                  <input class="register-input" type="password" name="password1" autocomplete="new-password" required id="id_password1"> 
+                  <input class="auth-input" type="password" name="password1" autocomplete="new-password" required id="id_password1"> 
                 </td>
               </tr>
               <tr>
@@ -40,14 +40,14 @@
                   <label for="id_password2">Password confirmation:</label> 
                 </td>
                 <td>
-                  <input class="register-input" type="password" name="password2" autocomplete="new-password" required id="id_password2"> 
+                  <input class="auth-input" type="password" name="password2" autocomplete="new-password" required id="id_password2"> 
                 </td>
               </tr>
             </table>
-            <button type="submit" class="register-btn">Register</button>
+            <button type="submit" class="auth-btn register-btn">Register</button>
             <div class="border-top pt-3">
               <small class="text-muted">
-                Already Have An Account? <a href="#" class="ml-2">Sign In</a>
+                Already Have An Account? <a href="{% url 'login' %}" class="ml-2">Sign In</a>
               </small>
             </div>
           </div>

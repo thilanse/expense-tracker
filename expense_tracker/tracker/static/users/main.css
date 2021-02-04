@@ -1,19 +1,26 @@
 
-.register-container{
-  background-color:  rgb(202, 238, 234);
-  width: 800px;
+.auth-container{
   margin: auto;
   margin-top: 100px;
   padding: 30px;
-  /* overflow: hidden; */
 }
 
-.register-container table{
+.register-container{
+  background-color:  rgb(202, 238, 234);
+  width: 800px;
+}
+
+.login-container{
+  background-color:  rgb(238, 231, 202);
+  width: 500px;
+}
+
+.auth-container table{
   margin-bottom: 5px;
   width: 100%;
 }
 
-.register-input{
+.auth-input{
   width: 100%;
 }
 
@@ -33,17 +40,29 @@
   margin: 0;
 }
 
-.register-btn{
+.auth-btn{
   float: right;
   margin-top: 15px;
   margin-right: 5px;
-  background-color: rgb(143, 209, 201);
   padding: 5px 10px;
   border: none;
 }
 
+.register-btn{
+  background-color: rgb(143, 209, 201);
+}
+
 .register-btn:hover{
   background-color: rgb(116, 190, 182);
+  cursor: pointer;
+}
+
+.login-btn{
+  background-color: rgb(209, 197, 147);
+}
+
+.login-btn:hover{
+  background-color: rgb(190, 176, 120);
   cursor: pointer;
 }
 
