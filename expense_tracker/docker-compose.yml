@@ -8,3 +8,14 @@ services:
       - .:/code
     ports:
       - "8555:8000"
+    depends_on:
+      - db
+  db:
+    restart: always
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: "password"
+    volumes:
+      - ./pg_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
