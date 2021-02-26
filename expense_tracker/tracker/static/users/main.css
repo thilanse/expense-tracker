@@ -29,12 +29,12 @@
 }
 
 .helptext-container{
-  background-color: rgb(186, 235, 229);
+  /* background-color: rgb(186, 235, 229); */
   height: 165px;
 }
 
 .helptext{
-  font-size: 20px;
+  font-size: 12px;
 }
 
 .helptext ul{

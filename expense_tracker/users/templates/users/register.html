@@ -17,13 +17,16 @@
                                 <label for="id_username">Username:</label>
                             </td>
                             <td>
-                                <ul class="errorlist">
-                                    <li>A user with that username already exists.</li>
-                                </ul>
+                                {% if form.username.errors %}
+                                    A user with that username already exists.
+                                {% endif %}
+
                                 <input class="auth-input" type="text" name="username" maxlength="150" autofocus required
                                        id="id_username">
-                                <br>
-                                <span class="helptext">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</span>
+                                {% if form.username.errors %}
+                                    <br>
+                                    <span class="helptext">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</span>
+                                {% endif %}
                             </td>
                         </tr>
                         <tr>
@@ -48,13 +51,17 @@
                                 <label for="id_password2">Password confirmation:</label>
                             </td>
                             <td>
-                                <ul class="errorlist">
-                                    <li>The two password fields didn’t match.</li>
-                                </ul>
+                                {% if form.password2.errors %}
+                                    <ul class="errorlist">
+                                        <li>The two password fields didn’t match.</li>
+                                    </ul>
+                                {% endif %}
                                 <input class="auth-input" type="password" name="password2" autocomplete="new-password"
                                        required id="id_password2">
-                                <br>
-                                <span class="helptext">Enter the same password as before, for verification.</span>
+                                {% if form.password2.errors %}
+                                    <br>
+                                    <span class="helptext">Enter the same password as before, for verification.</span>
+                                {% endif %}
                             </td>
                         </tr>
                     </table>
