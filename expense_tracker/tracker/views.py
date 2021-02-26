@@ -13,7 +13,7 @@ HOME_TEMPLATE = 'tracker/home.html'
 
 @login_required
 def home(request):
-    return render(request, HOME_TEMPLATE, get_home_context())
+    return render(request, HOME_TEMPLATE, get_home_context(request))
 
 
 def add_expense(request):
@@ -37,7 +37,7 @@ def update_expense(request, pk):
     else:
         update_form = ExpenseUpdateForm(instance=expense_to_update)
 
-    context = get_home_context()
+    context = get_home_context(request)
     context['update_id'] = pk
     context['update_form'] = update_form
 
@@ -45,7 +45,7 @@ def update_expense(request, pk):
 
 
 def confirm_delete_expense(request, pk):
-    context = get_home_context()
+    context = get_home_context(request)
     context['delete_id'] = pk
 
     return render(request, HOME_TEMPLATE, context)
@@ -57,7 +57,7 @@ def delete_expense(request, pk):
     return redirect('tracker-home')
 
 
-def get_home_context():
+def get_home_context(request):
     """
     Creates context required for home page.
     ie, the form and the list of expenses
@@ -65,9 +65,9 @@ def get_home_context():
     """
 
     form = ExpenseForm()
-    expenses = Expense.objects.order_by('-date_of_expenditure')
+    expenses = Expense.objects.filter(user=request.user).order_by('-date_of_expenditure')
     expenses = get_expenses(expenses)
-    current_annual_total, current_month_total, previous_annual_total, previos_month_total = get_month_cost(expenses)
+    current_annual_total, current_month_total, previous_annual_total, previous_month_total = get_month_cost(expenses)
 
     context = {
         'form': form,
@@ -75,7 +75,7 @@ def get_home_context():
         'current_annual_cost': current_annual_total,
         'current_month_cost': current_month_total,
         'previous_annual_cost': previous_annual_total,
-        'previous_month_cost': previos_month_total
+        'previous_month_cost': previous_month_total
     }
     return context
 
@@ -131,11 +131,16 @@ def get_daily_expense(day, expenses, annual_expense_group, monthly_expense_group
 
 def get_specific_month_cost(expenses, year, month):
     annual_expense = next((expense for expense in expenses if expense['year'] == year), None)
-    monthly_expense = next((expense for expense in annual_expense['annual_expenses'] if expense['month'] == month),
-                           None)
 
-    if monthly_expense is None:
+    if annual_expense is not None:
+        monthly_expense = next((expense for expense in annual_expense['annual_expenses'] if expense['month'] == month),
+                               None)
+
+        if monthly_expense is None:
+            monthly_expense = {'total_monthly_cost': 0.0}
+    else:
         monthly_expense = {'total_monthly_cost': 0.0}
+        annual_expense = {'total_annual_cost': 0.0}
 
     return annual_expense, monthly_expense
 

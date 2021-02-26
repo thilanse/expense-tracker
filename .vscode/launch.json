@@ -8,7 +8,7 @@
       "name": "Python: Django",
       "type": "python",
       "request": "launch",
-      "program": "F:\\github-projects\\expense-tracker\\expense_tracker\\manage.py",
+      "program": "D:\\github-projects\\expense-tracker\\expense_tracker\\manage.py",
       "args": [
         "runserver"
       ],
