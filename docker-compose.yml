@@ -1,0 +1,35 @@
+version: '3.9'
+
+services:
+  db:
+    restart: always
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: "password"
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  django_gunicorn:
+    volumes:
+      - static:/static
+    env_file:
+      - .env
+    build: ./expense_tracker
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+  nginx:
+    build: ./nginx
+    volumes:
+      - static:/static
+    ports:
+      - "80:80"
+    depends_on:
+      - django_gunicorn
+
+volumes:
+  postgres:
+    driver: local
+  static:
