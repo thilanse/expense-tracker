@@ -7,9 +7,9 @@ services:
     environment:
       POSTGRES_PASSWORD: "password"
     volumes:
-      - ./pg_data:/var/lib/postgresql/data
+      - C:\Users\Thilan Senanayake\Documents\expense_tracker_postgres_data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - "5433:5432"
   web:
     build:
       context: .
@@ -18,6 +18,6 @@ services:
     volumes:
       - .:/code
     ports:
-      - "8555:8000"
+      - "8556:8000"
     depends_on:
       - db
