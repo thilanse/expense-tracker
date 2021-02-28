@@ -1,6 +1,7 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 from . import api_views
+from rest_framework.authtoken import views as auth_views
 
 urlpatterns = [
     path('', views.home, name='tracker-home'),
@@ -9,5 +10,8 @@ urlpatterns = [
     path('expense/<int:pk>/delete/confirm/', views.confirm_delete_expense, name='expense-confirm-delete'),
     path('expense/<int:pk>/delete/', views.delete_expense, name='expense-delete'),
     path('api/expenses/', api_views.expense_list),
-    path('api/expenses/<int:pk>', api_views.expense_detail),
+    path('api/expenses/<int:pk>/', api_views.expense_detail),
+    path('api-auth/', include('rest_framework.urls')),
+    path('api/authenticate/', auth_views.obtain_auth_token)
 ]
+
