@@ -1,7 +1,6 @@
 from django.urls import path, include
 from . import views
 from . import api_views
-from rest_framework.authtoken import views as auth_views
 
 urlpatterns = [
     path('', views.home, name='tracker-home'),

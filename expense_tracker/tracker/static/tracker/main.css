@@ -1,3 +1,31 @@
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+nav li {
+  float: left;
+  color: white;
+  text-align: center;
+  padding: 8px 16px;
+}
+
+nav li a {
+  display: block;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+nav li a:hover {
+  text-decoration: none;
+  color: white
+}
+
 .add-expense-container{
   background-color: rgb(204, 204, 204);
   padding: 15px;

@@ -2,111 +2,120 @@
 {% load static %}
 {% load humanize %}
 {% block content %}
-  <!-- <h1>Welcome to the Expense Tracker</h1> -->
-  <div class="container" style="margin-top: 30px;">
+<nav>
+    <ul>
+        <li style="margin-left: 5%;">Expense Tracker</li>
+        <li style="float:right; margin-right: 5%;"><a href="logout">Logout</a></li>
+        <li style="float:right;"><a href="#">thilanse</a></li>
+    </ul>
+</nav>
+<div class="container" style="margin-top: 30px;">
 
     <div class="row">
 
-      <div class="col-4">
-        <div class="add-expense-container">
-          <form action="{% url 'expense-create' %}" method="POST">
-            {% csrf_token %}
+        <div class="col-4">
+            <div class="add-expense-container">
+                <form action="{% url 'expense-create' %}" method="POST">
+                    {% csrf_token %}
 
-            <div class="row">
-              <div class="col">{{ form.amount }}</div>
-              <div class="col">{{ form.date_of_expenditure }}</div>
-            </div>
-            {{ form.reason }}
-            <div>
-              <button type="submit" class="custom-add-btn">Add</button>
-            </div>
-            
-
-          </form>
-        </div>
-        <div class="expense-total-summary-container">
-          <table>
-            <tr>
-              <td>Current Month Total:</td>
-              <td>Rs. {{ current_month_cost|intcomma }}0</td>
-            </tr>
-            <tr>
-              <td>Previous Month Total:</td>
-              <td>Rs. {{ previous_month_cost|intcomma }}0</td>
-            </tr>
-            <tr>
-              <td>Current Annual Total:</td>
-              <td>Rs. {{ current_annual_cost|intcomma }}0</td>
-            </tr>
-            <tr>
-              <td>Previous Annual Total:</td>
-              <td>Rs. {{ previous_annual_cost|intcomma }}0</td>
-            </tr>
-          </table>
-        </div>
-      </div>
-
-      <div class="col-8">
-        <ul class="list-group">
-          {% for annual_expense in expenses %}
-
-            {% for monthly_expense in annual_expense.annual_expenses %}
-
-              <div class="monthly-expense-container">
-                <div class="monthly-expense-container-header">
-                  <h5>{{ monthly_expense.month_name }}, {{ annual_expense.year }} <span style="float: right;">Rs. {{ monthly_expense.total_monthly_cost|intcomma }}0</span></h5>
-                </div>
-                <div class="monthly-expense-container-content">
-                  {% for daily_expense in monthly_expense.monthly_expenses %}
-                    <div class="daily-expense-container">
-
-                      <div class="daily-expense-container-header">
-                        {{ daily_expense.week_day_name }}, {{ daily_expense.day }} <span style="float: right;">Rs. {{ daily_expense.total_daily_cost|intcomma }}0</span>
-                      </div>
-
-                      <table class="daily-expense-table">
-                        {% for expense in daily_expense.daily_expenses %}
-                          <tr>
-                            {% if expense.id == update_id %}
-                              <form method="POST">
-                                {% csrf_token %}
-                                <td class="daily-expense-reason">{{ update_form.reason }}</td>
-                                <td class="daily-expense-amount">{{ update_form.amount }}</td>
-                                <td class="daily-expense-date">{{ update_form.date_of_expenditure }}</td>
-                                <td class="daily-expense-update-actions">
-                                  <button type="submit" class="custom-btn update-btn"><i class="fas fa-check"></i></i></button>
-                                  <a href="{% url 'tracker-home' %}" class="custom-btn cancel-btn"><i class="fas fa-times"></i></a>
-                                </td>
-                              </form>
-                            {% elif expense.id == delete_id %}
-                              <td colspan="3" class="delete-confirmation">Are you sure you want to delete?</td>
-                              <td class="delete-confirmation-actions">
-                                <a href="{% url 'expense-delete' expense.id %}">Yes</a>
-                                <a href="{% url 'tracker-home' %}">No</a>
-                              </td>
-                            {% else %}
-                              <td class="daily-expense-reason">{{ expense.reason }}</td>
-                              <td class="daily-expense-amount">Rs. {{ expense.amount|intcomma }}0</td>
-                              <td class="daily-expense-actions" colspan="2" style="float: right;">
-                                {% if not update_id and not delete_id %}
-                                  <a href="{% url 'expense-update' expense.id %}">Edit</a> |
-                                  <a href="{% url 'expense-confirm-delete' expense.id %}">Delete</a>
-                                {% endif %}
-                              </td>
-                            {% endif %}
-                          </tr>
-                        {% endfor %}
-                      </table>
+                    <div class="row">
+                        <div class="col">{{ form.amount }}</div>
+                        <div class="col">{{ form.date_of_expenditure }}</div>
                     </div>
-                  {% endfor %}
+                    {{ form.reason }}
+                    <div>
+                        <button type="submit" class="custom-add-btn">Add</button>
+                    </div>
+
+
+                </form>
+            </div>
+            <div class="expense-total-summary-container">
+                <table>
+                    <tr>
+                        <td>Current Month Total:</td>
+                        <td>Rs. {{ current_month_cost|intcomma }}0</td>
+                    </tr>
+                    <tr>
+                        <td>Previous Month Total:</td>
+                        <td>Rs. {{ previous_month_cost|intcomma }}0</td>
+                    </tr>
+                    <tr>
+                        <td>Current Annual Total:</td>
+                        <td>Rs. {{ current_annual_cost|intcomma }}0</td>
+                    </tr>
+                    <tr>
+                        <td>Previous Annual Total:</td>
+                        <td>Rs. {{ previous_annual_cost|intcomma }}0</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-8">
+            <ul class="list-group">
+                {% for annual_expense in expenses %}
+
+                {% for monthly_expense in annual_expense.annual_expenses %}
+
+                <div class="monthly-expense-container">
+                    <div class="monthly-expense-container-header">
+                        <h5>{{ monthly_expense.month_name }}, {{ annual_expense.year }} <span style="float: right;">Rs. {{ monthly_expense.total_monthly_cost|intcomma }}0</span>
+                        </h5>
+                    </div>
+                    <div class="monthly-expense-container-content">
+                        {% for daily_expense in monthly_expense.monthly_expenses %}
+                        <div class="daily-expense-container">
+
+                            <div class="daily-expense-container-header">
+                                {{ daily_expense.week_day_name }}, {{ daily_expense.day }} <span style="float: right;">Rs. {{ daily_expense.total_daily_cost|intcomma }}0</span>
+                            </div>
+
+                            <table class="daily-expense-table">
+                                {% for expense in daily_expense.daily_expenses %}
+                                <tr>
+                                    {% if expense.id == update_id %}
+                                    <form method="POST">
+                                        {% csrf_token %}
+                                        <td class="daily-expense-reason">{{ update_form.reason }}</td>
+                                        <td class="daily-expense-amount">{{ update_form.amount }}</td>
+                                        <td class="daily-expense-date">{{ update_form.date_of_expenditure }}</td>
+                                        <td class="daily-expense-update-actions">
+                                            <button type="submit" class="custom-btn update-btn"><i
+                                                    class="fas fa-check"></i></i></button>
+                                            <a href="{% url 'tracker-home' %}" class="custom-btn cancel-btn"><i
+                                                    class="fas fa-times"></i></a>
+                                        </td>
+                                    </form>
+                                    {% elif expense.id == delete_id %}
+                                    <td colspan="3" class="delete-confirmation">Are you sure you want to delete?</td>
+                                    <td class="delete-confirmation-actions">
+                                        <a href="{% url 'expense-delete' expense.id %}">Yes</a>
+                                        <a href="{% url 'tracker-home' %}">No</a>
+                                    </td>
+                                    {% else %}
+                                    <td class="daily-expense-reason">{{ expense.reason }}</td>
+                                    <td class="daily-expense-amount">Rs. {{ expense.amount|intcomma }}0</td>
+                                    <td class="daily-expense-actions" colspan="2" style="float: right;">
+                                        {% if not update_id and not delete_id %}
+                                        <a href="{% url 'expense-update' expense.id %}">Edit</a> |
+                                        <a href="{% url 'expense-confirm-delete' expense.id %}">Delete</a>
+                                        {% endif %}
+                                    </td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                        {% endfor %}
+                    </div>
                 </div>
-              </div>
-            {% endfor %}
-          {% endfor %}
-        </ul>
-      </div>
+                {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
 
     </div>
-  </div>
-  
+</div>
+
 {% endblock content%}
