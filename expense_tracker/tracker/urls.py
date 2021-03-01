@@ -12,6 +12,6 @@ urlpatterns = [
     path('api/expenses/', api_views.expense_list),
     path('api/expenses/<int:pk>/', api_views.expense_detail),
     path('api-auth/', include('rest_framework.urls')),
-    path('api/authenticate/', auth_views.obtain_auth_token)
+    path('api/authenticate/', api_views.CustomAuthToken.as_view())
 ]
 
