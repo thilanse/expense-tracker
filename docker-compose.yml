@@ -11,6 +11,7 @@ services:
     ports:
       - "5432:5432"
   django_gunicorn:
+    restart: always
     volumes:
       - static:/static
     env_file:
@@ -21,6 +22,7 @@ services:
     depends_on:
       - db
   nginx:
+    restart: always
     build: ./nginx
     volumes:
       - static:/static
