@@ -20,9 +20,10 @@
   <nav>
         <ul>
             <li style="margin-left: 5%;"><a href="/">Expense Tracker</a></li>
-            <li style="float:right; margin-right: 5%;"><a href="logout">Logout</a></li>
+            <li style="float:right; margin-right: 5%;"><a href="{% url 'logout' %}">Logout</a></li>
             <li style="float:right;"><a href="#">thilanse</a></li>
-            <li style="float:right;"><a href="pending-expenses">Pending Expenses</a></li>
+            <li style="float:right;"><a href="{% url 'pending-expenses' %}">Pending Expenses</a></li>
+            <li style="float:right;"><a href="{% url 'expense-balancer' %}">Expense Balancer</a></li>
         </ul>
   </nav>
 
