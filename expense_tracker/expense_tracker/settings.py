@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'tracker.apps.TrackerConfig',
     'pending_expenses.apps.PendingExpensesConfig',
+    'expense_balancer.apps.ExpenseBalancerConfig',
     'users.apps.UsersConfig',
     'django.contrib.admin',
     'django.contrib.auth',
