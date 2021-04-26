@@ -6,5 +6,7 @@ urlpatterns = [
     path('events/new', views.add_event, name='event-create'),
     path('events/<int:pk>/contributors/new', views.add_contributor, name='contributor-create'),
     path('events/<int:pk>/expenses/new', views.add_expense, name='expense-create'),
+    path('events/<int:pk>/delete', views.delete_event, name='event-delete'),
+    path('events/<int:pk>/delete-confirmation', views.delete_event_confirmation, name='event-delete-confirmation'),
     path('expenses/<int:expense_pk>/contribution/new', views.add_contribution, name='contribution-create'),
 ]

@@ -165,43 +165,19 @@ def get_example_context():
 
     context['events'] = event_list
 
-    # context = {
-    #     "events": [
-    #         {
-    #             "id": 1,
-    #             "name": "Trip to Nuwara Eliya | April 2021",
-    #             "contributors": [
-    #                 {
-    #                     "name": "Thilan",
-    #                     "total_amount": 5000
-    #                 },
-    #                 {
-    #                     "name": "Gayathri",
-    #                     "total_amount": 25000
-    #                 },
-    #                 {
-    #                     "name": "Kaveen",
-    #                     "total_amount": 0
-    #                 }
-    #             ],
-    #             "expenses": [
-    #                 {
-    #                     "id": 1,
-    #                     "reason": "Hotel Cost",
-    #                     "total_amount": 30000,
-    #                     "contributions": [
-    #                         {
-    #                             "amount": 5000,
-    #                             "contributor": "Thilan"
-    #                         },
-    #                         {
-    #                             "amount": 25000,
-    #                             "contributor": "Gayathri"
-    #                         }
-    #                     ]
-    #                 }
-    #             ]
-    #         }
-    #     ]
-    # }
     return context
+
+
+def delete_event(request, pk):
+    event_to_delete = Event.objects.get(id=pk)
+    event_to_delete.delete()
+    return redirect('expense-balancer')
+
+
+def delete_event_confirmation(request, pk):
+    context = {
+        'delete_confirmation': True,
+        'selected_id': pk,
+        **get_example_context()
+    }
+    return render(request, HOME_TEMPLATE, context)

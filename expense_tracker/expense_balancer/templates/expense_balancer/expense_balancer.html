@@ -26,6 +26,13 @@
         <a href="{% url 'contributor-create' event.id %}">Add Contributor</a>
         <a href="{% url 'expense-create' event.id %}">Add Expense</a>
 
+        {% if delete_confirmation and selected_id == event.id %}
+        <a href="{% url 'event-delete' event.id %}">Yes</a>
+        <a href="{% url 'expense-balancer' %}">No</a>
+        {% else %}
+        <a href="{% url 'event-delete-confirmation' event.id %}">Delete Event</a>
+        {% endif %}
+
         {% if contributor_form and selected_id == event.id %}
         <div>
             <form action="{% url 'contributor-create' event.id %}" method="POST">
