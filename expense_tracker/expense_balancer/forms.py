@@ -22,6 +22,13 @@ class ContributorForm(forms.ModelForm):
 
 
 class ContributionForm(forms.ModelForm):
+
+    # This is a reference to show that model forms can be initialized with parameters
+
+    # def __init__(self, contributor_choices, *args, **kwargs):
+    #     super(ContributionForm, self).__init__(*args, **kwargs)
+    #     self.fields['contributor'].choices = contributor_choices
+
     class Meta:
         model = Contribution
-        fields = ['amount']
+        fields = ['amount', 'contributor']

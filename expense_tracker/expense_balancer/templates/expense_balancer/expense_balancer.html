@@ -24,13 +24,23 @@
         <h4>{{ event.name }}</h4>
 
         <a href="{% url 'contributor-create' event.id %}">Add Contributor</a>
-        <a href="{% url 'expense-create' %}">Add Expense</a>
+        <a href="{% url 'expense-create' event.id %}">Add Expense</a>
 
-        {% if contributor_form %}
+        {% if contributor_form and selected_id == event.id %}
         <div>
             <form action="{% url 'contributor-create' event.id %}" method="POST">
                 {% csrf_token %}
                 {{ contributor_form.name }}
+                <button>Add</button>
+            </form>
+        </div>
+        {% endif %}
+
+        {% if expense_form and selected_id == event.id %}
+        <div>
+            <form action="{% url 'expense-create' event.id %}" method="POST">
+                {% csrf_token %}
+                {{ expense_form.reason }}
                 <button>Add</button>
             </form>
         </div>
@@ -48,6 +58,21 @@
             {% for expense in event.expenses %}
             <div>
                 {{ expense.reason }} | {{ expense.total_amount }}
+                <a href="{% url 'contribution-create' expense.id %}">Add Contribution</a>
+
+                {% if contribution_form and selected_id == expense.id %}
+                <div>
+                    <form action="{% url 'contribution-create' expense.id %}" method="POST">
+                        {% csrf_token %}
+                        {{ contribution_form.amount }}
+                        {{ contribution_form.contributor }}
+                        {{ contribution_form.amount.errors }}
+                        {{ contribution_form.contributor.errors }}
+                        <button>Add</button>
+                    </form>
+                </div>
+                {% endif %}
+
                 {% for contribution in expense.contributions %}
                 <div>{{ contribution.contributor }} paid {{ contribution.amount }}</div>
                 {% endfor %}

@@ -22,11 +22,12 @@ class Expense(models.Model):
 
 class Contributor(models.Model):
     name = models.CharField(max_length=50)
+    total_amount = models.DecimalField(default=0, max_digits=8, decimal_places=2)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return f"Contributor:{self.name}"
+        return f"{self.name}"
 
 
 class Contribution(models.Model):
