@@ -1,3 +1,6 @@
+from decimal import Decimal
+
+from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
@@ -22,7 +25,7 @@ class Expense(models.Model):
 
 class Contributor(models.Model):
     name = models.CharField(max_length=50)
-    total_amount = models.DecimalField(default=0, max_digits=8, decimal_places=2)
+    total_amount = models.DecimalField(default=0, max_digits=8, decimal_places=2, validators=[MinValueValidator(Decimal('0.01'))])
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
@@ -31,7 +34,7 @@ class Contributor(models.Model):
 
 
 class Contribution(models.Model):
-    amount = models.DecimalField(max_digits=8, decimal_places=2)
+    amount = models.DecimalField(max_digits=8, decimal_places=2, validators=[MinValueValidator(Decimal('0.01'))])
     expense = models.ForeignKey(Expense, on_delete=models.CASCADE)
     contributor = models.ForeignKey(Contributor, on_delete=models.CASCADE)
 

@@ -8,5 +8,7 @@ urlpatterns = [
     path('events/<int:pk>/expenses/new', views.add_expense, name='expense-create'),
     path('events/<int:pk>/delete', views.delete_event, name='event-delete'),
     path('events/<int:pk>/delete-confirmation', views.delete_event_confirmation, name='event-delete-confirmation'),
-    path('expenses/<int:expense_pk>/contribution/new', views.add_contribution, name='contribution-create'),
+    path('expenses/<int:pk>/contribution/new', views.add_contribution, name='contribution-create'),
+    path('expenses/<int:pk>/delete', views.delete_expense, name='expense-delete'),
+    path('expenses/<int:pk>/delete-confirmation', views.delete_expense_confirmation, name='expense-delete-confirmation'),
 ]

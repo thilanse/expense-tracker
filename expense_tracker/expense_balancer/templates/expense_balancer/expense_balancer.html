@@ -21,12 +21,12 @@
 
     {% for event in events %}
     <div>
-        <h4>{{ event.name }}</h4>
+        <h4>{{ event.name }} | Rs. {{ event.total_amount }}</h4>
 
         <a href="{% url 'contributor-create' event.id %}">Add Contributor</a>
         <a href="{% url 'expense-create' event.id %}">Add Expense</a>
 
-        {% if delete_confirmation and selected_id == event.id %}
+        {% if delete_event_confirmation and selected_id == event.id %}
         <a href="{% url 'event-delete' event.id %}">Yes</a>
         <a href="{% url 'expense-balancer' %}">No</a>
         {% else %}
@@ -66,6 +66,13 @@
             <div>
                 {{ expense.reason }} | {{ expense.total_amount }}
                 <a href="{% url 'contribution-create' expense.id %}">Add Contribution</a>
+
+                {% if delete_expense_confirmation and selected_id == expense.id %}
+                <a href="{% url 'expense-delete' expense.id %}">Yes</a>
+                <a href="{% url 'expense-balancer' %}">No</a>
+                {% else %}
+                <a href="{% url 'expense-delete-confirmation' expense.id %}">Delete Expense</a>
+                {% endif %}
 
                 {% if contribution_form and selected_id == expense.id %}
                 <div>

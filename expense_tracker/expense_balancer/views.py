@@ -64,8 +64,8 @@ def add_expense(request, pk):
     return render(request, HOME_TEMPLATE, context)
 
 
-def add_contribution(request, expense_pk):
-    current_expense = Expense.objects.get(id=expense_pk)
+def add_contribution(request, pk):
+    current_expense = Expense.objects.get(id=pk)
 
     if request.method == 'POST':
         form = ContributionForm(request.POST)
@@ -87,20 +87,16 @@ def add_contribution(request, expense_pk):
             contribution_form.save()
             return redirect('expense-balancer')
 
-        else:
-            print("form is invalid")
-
     # Extract contributors for selected event and create choices for contributors form field
     contributors = Contributor.objects.filter(event=current_expense.event)
     choices = [[contributor.id, contributor.name] for contributor in contributors]
-    # choices = ["", "-----"] + choices
+
     form = ContributionForm()
     form.fields['contributor'].choices = choices
-    form.fields['contributor'].initial = "-----"
 
     context = {
         'contribution_form': form,
-        'selected_id': expense_pk,
+        'selected_id': pk,
         **get_example_context()
     }
     return render(request, HOME_TEMPLATE, context)
@@ -147,7 +143,9 @@ def get_event_expenses(event):
         }
         expense_list.append(expense_dict)
 
-    return expense_list
+    total_amount = sum(expense['total_amount'] for expense in expense_list)
+
+    return expense_list, total_amount
 
 
 def get_example_context():
@@ -155,11 +153,13 @@ def get_example_context():
     context = {}
     event_list = []
     for event in events:
+        expenses, total_amount = get_event_expenses(event)
         event_dict = {
             'id': event.id,
             'name': event.name,
             'contributors': get_event_contributors(event),
-            'expenses': get_event_expenses(event)
+            'expenses': expenses,
+            'total_amount': total_amount
         }
         event_list.append(event_dict)
 
@@ -176,7 +176,29 @@ def delete_event(request, pk):
 
 def delete_event_confirmation(request, pk):
     context = {
-        'delete_confirmation': True,
+        'delete_event_confirmation': True,
+        'selected_id': pk,
+        **get_example_context()
+    }
+    return render(request, HOME_TEMPLATE, context)
+
+
+def delete_expense(request, pk):
+    expense_to_delete = Expense.objects.get(id=pk)
+
+    # Update total amounts for contributors
+    contributions = Contribution.objects.filter(expense=expense_to_delete)
+    for contribution in contributions:
+        contribution.contributor.total_amount -= contribution.amount
+        contribution.contributor.save()
+
+    expense_to_delete.delete()
+    return redirect('expense-balancer')
+
+
+def delete_expense_confirmation(request, pk):
+    context = {
+        'delete_expense_confirmation': True,
         'selected_id': pk,
         **get_example_context()
     }
