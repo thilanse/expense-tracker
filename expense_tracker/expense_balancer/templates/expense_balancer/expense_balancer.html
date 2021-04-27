@@ -16,11 +16,10 @@
             <button>Add</button>
         </form>
     </div>
-
     {% endif %}
 
     {% for event in events %}
-    <div>
+    <div class="event-container">
         <h4>{{ event.name }} | Rs. {{ event.total_amount }}</h4>
 
         <a href="{% url 'contributor-create' event.id %}">Add Contributor</a>
@@ -63,7 +62,7 @@
         <div>
             Expenses:
             {% for expense in event.expenses %}
-            <div>
+            <div class="expense-container">
                 {{ expense.reason }} | {{ expense.total_amount }}
                 <a href="{% url 'contribution-create' expense.id %}">Add Contribution</a>
 
@@ -93,6 +92,13 @@
             </div>
             {% endfor %}
         </div>
+
+        {% if event.transfers %}<div>Pending money transfers:</div>{% endif %}
+        {% for transfer in event.transfers %}
+        <div>
+            {{ transfer.from }} -> {{ transfer.to }} : {{ transfer.amount }}
+        </div>
+        {% endfor %}
     </div>
     {% endfor %}
 

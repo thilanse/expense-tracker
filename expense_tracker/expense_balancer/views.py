@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Event, Expense, Contributor, Contribution
@@ -71,7 +73,6 @@ def add_contribution(request, pk):
         form = ContributionForm(request.POST)
 
         if form.is_valid():
-
             # Retrieve selected contributor
             contributor_name = form.cleaned_data['contributor']
             contributor = Contributor.objects.filter(name=contributor_name, event=current_expense.event).first()
@@ -148,19 +149,76 @@ def get_event_expenses(event):
     return expense_list, total_amount
 
 
+def get_event_transfers(contributors, total_amount):
+
+    cost_per_person = total_amount / len(contributors)
+
+    balances = []
+    for contributor in contributors:
+        balance = contributor['total_amount'] - Decimal(cost_per_person)
+        balances.append({'contributor': contributor['name'], 'balance': int(balance)})
+
+    return _determine_money_transfers(balances)
+
+
+def _determine_money_transfers(balances):
+
+    balances.sort(key=lambda x: x['balance'])
+
+    creditors = []
+    debitors = []
+    for balance in balances:
+        if balance['balance'] < 0:
+            creditors.append(balance)
+        else:
+            debitors.append(balance)
+
+    creditors.sort(key=lambda x: x['balance'])
+    debitors.sort(key=lambda x: x['balance'], reverse=True)
+
+    transfers = []
+    for creditor in creditors:
+        for debitor in debitors:
+            if creditor['balance'] != 0 and debitor['balance'] != 0:
+                payment_balance = int(creditor['balance'] + debitor['balance'])
+                transfer = {
+                    'from': creditor['contributor'],
+                    'to': debitor['contributor']
+                }
+                if payment_balance <= 0:
+                    transfer['amount'] = debitor['balance']
+                    debitor['balance'] = 0
+                    creditor['balance'] = payment_balance
+                else:
+                    transfer['amount'] = creditor['balance']*-1
+                    debitor['balance'] = payment_balance
+                    creditor['balance'] = 0
+
+                transfers.append(transfer)
+
+    return transfers
+
+
 def get_example_context():
     events = Event.objects.all().order_by('-date_created')
     context = {}
     event_list = []
     for event in events:
-        expenses, total_amount = get_event_expenses(event)
+        expenses, event_total = get_event_expenses(event)
+        contributors = get_event_contributors(event)
+        transfers = get_event_transfers(contributors, event_total)
         event_dict = {
             'id': event.id,
             'name': event.name,
-            'contributors': get_event_contributors(event),
+            'contributors': contributors,
             'expenses': expenses,
-            'total_amount': total_amount
+            'total_amount': event_total,
+            'transfers': transfers
         }
+
+        # if len(transfers) > 0:
+        #     event_dict['transfers'] = transfers
+
         event_list.append(event_dict)
 
     context['events'] = event_list
