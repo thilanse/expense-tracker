@@ -6,7 +6,7 @@ services:
 #    - docker-compose -f ./expense_tracker/docker-compose-travis.yml -d up --build
 
 script:
-    - docker-compose -f ./expense_tracker/docker-compose-travis.yml run python manage.py test
+    - docker-compose -f ./expense_tracker/docker-compose-travis.yml ./expense_tracker/manage.py test
 
 after_success:
 #script:
