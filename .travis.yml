@@ -2,14 +2,14 @@ sudo: required
 services:
     - docker
 
-#before_install:
-#    - docker build -t thilanse96/expense-tracker-gunicorn -f ./expense_tracker/Dockerfile.dev ./expense_tracker
-#
-#script:
-#    - docker run thilanse96/expense-tracker-gunicorn python manage.py test
-#
-#after_success:
+before_install:
+    - docker build -t thilanse96/expense-tracker-gunicorn -f ./expense_tracker/Dockerfile.dev ./expense_tracker
+
 script:
+    - docker run thilanse96/expense-tracker-gunicorn python manage.py test
+
+after_success:
+#script:
     # Build all images
     - docker build -t thilanse96/expense-tracker-gunicorn ./expense_tracker
     - docker build -t thilanse96/expense-tracker-nginx ./nginx
