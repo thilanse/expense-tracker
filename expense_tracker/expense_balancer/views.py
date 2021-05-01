@@ -10,14 +10,16 @@ HOME_TEMPLATE = 'expense_balancer/expense_balancer.html'
 
 @login_required
 def home(request):
-    context = get_example_context()
+    context = get_example_context(request)
 
     return render(request, HOME_TEMPLATE, context)
 
 
+@login_required
 def add_event(request):
     if request.method == 'POST':
         form = EventForm(request.POST)
+        form.instance.user = request.user
         if form.is_valid():
             form.save()
 
@@ -25,11 +27,12 @@ def add_event(request):
 
     context = {
         'event_form': form,
-        **get_example_context()
+        **get_example_context(request)
     }
     return render(request, HOME_TEMPLATE, context)
 
 
+@login_required
 def add_contributor(request, pk):
     if request.method == 'POST':
         current_event = Event.objects.get(id=pk)
@@ -43,11 +46,12 @@ def add_contributor(request, pk):
     context = {
         'contributor_form': ContributorForm(),
         'selected_id': pk,
-        **get_example_context()
+        **get_example_context(request)
     }
     return render(request, HOME_TEMPLATE, context)
 
 
+@login_required
 def add_expense(request, pk):
     if request.method == 'POST':
         current_event = Event.objects.get(id=pk)
@@ -61,11 +65,12 @@ def add_expense(request, pk):
     context = {
         'expense_form': ExpenseForm(),
         'selected_id': pk,
-        **get_example_context()
+        **get_example_context(request)
     }
     return render(request, HOME_TEMPLATE, context)
 
 
+@login_required
 def add_contribution(request, pk):
     current_expense = Expense.objects.get(id=pk)
 
@@ -98,7 +103,7 @@ def add_contribution(request, pk):
     context = {
         'contribution_form': form,
         'selected_id': pk,
-        **get_example_context()
+        **get_example_context(request)
     }
     return render(request, HOME_TEMPLATE, context)
 
@@ -150,7 +155,6 @@ def get_event_expenses(event):
 
 
 def get_event_transfers(contributors, total_amount):
-
     cost_per_person = total_amount / len(contributors)
 
     balances = []
@@ -162,36 +166,35 @@ def get_event_transfers(contributors, total_amount):
 
 
 def _determine_money_transfers(balances):
-
     balances.sort(key=lambda x: x['balance'])
 
     creditors = []
-    debitors = []
+    debtors = []
     for balance in balances:
         if balance['balance'] < 0:
             creditors.append(balance)
         else:
-            debitors.append(balance)
+            debtors.append(balance)
 
     creditors.sort(key=lambda x: x['balance'])
-    debitors.sort(key=lambda x: x['balance'], reverse=True)
+    debtors.sort(key=lambda x: x['balance'], reverse=True)
 
     transfers = []
     for creditor in creditors:
-        for debitor in debitors:
-            if creditor['balance'] != 0 and debitor['balance'] != 0:
-                payment_balance = int(creditor['balance'] + debitor['balance'])
+        for debtor in debtors:
+            if creditor['balance'] != 0 and debtor['balance'] != 0:
+                payment_balance = int(creditor['balance'] + debtor['balance'])
                 transfer = {
                     'from': creditor['contributor'],
-                    'to': debitor['contributor']
+                    'to': debtor['contributor']
                 }
                 if payment_balance <= 0:
-                    transfer['amount'] = debitor['balance']
-                    debitor['balance'] = 0
+                    transfer['amount'] = debtor['balance']
+                    debtor['balance'] = 0
                     creditor['balance'] = payment_balance
                 else:
-                    transfer['amount'] = creditor['balance']*-1
-                    debitor['balance'] = payment_balance
+                    transfer['amount'] = creditor['balance'] * -1
+                    debtor['balance'] = payment_balance
                     creditor['balance'] = 0
 
                 transfers.append(transfer)
@@ -199,14 +202,14 @@ def _determine_money_transfers(balances):
     return transfers
 
 
-def get_example_context():
-    events = Event.objects.all().order_by('-date_created')
+def get_example_context(request):
+    events = Event.objects.filter(user=request.user).order_by('-date_created')
     context = {}
     event_list = []
     for event in events:
         expenses, event_total = get_event_expenses(event)
         contributors = get_event_contributors(event)
-        transfers = get_event_transfers(contributors, event_total)
+        transfers = get_event_transfers(contributors, event_total) if len(contributors) > 0 else []
         event_dict = {
             'id': event.id,
             'name': event.name,
@@ -216,9 +219,6 @@ def get_example_context():
             'transfers': transfers
         }
 
-        # if len(transfers) > 0:
-        #     event_dict['transfers'] = transfers
-
         event_list.append(event_dict)
 
     context['events'] = event_list
@@ -226,21 +226,24 @@ def get_example_context():
     return context
 
 
+@login_required
 def delete_event(request, pk):
     event_to_delete = Event.objects.get(id=pk)
     event_to_delete.delete()
     return redirect('expense-balancer')
 
 
+@login_required
 def delete_event_confirmation(request, pk):
     context = {
         'delete_event_confirmation': True,
         'selected_id': pk,
-        **get_example_context()
+        **get_example_context(request)
     }
     return render(request, HOME_TEMPLATE, context)
 
 
+@login_required
 def delete_expense(request, pk):
     expense_to_delete = Expense.objects.get(id=pk)
 
@@ -254,10 +257,11 @@ def delete_expense(request, pk):
     return redirect('expense-balancer')
 
 
+@login_required
 def delete_expense_confirmation(request, pk):
     context = {
         'delete_expense_confirmation': True,
         'selected_id': pk,
-        **get_example_context()
+        **get_example_context(request)
     }
     return render(request, HOME_TEMPLATE, context)

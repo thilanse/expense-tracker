@@ -15,6 +15,7 @@ def home(request):
     return render(request, HOME_TEMPLATE, get_home_context(request))
 
 
+@login_required
 def add_expense(request):
     if request.method == 'POST':
         form = ExpenseForm(request.POST)
@@ -25,6 +26,7 @@ def add_expense(request):
     return redirect('tracker-home')
 
 
+@login_required
 def update_expense(request, pk):
     expense_to_update = Expense.objects.get(id=pk)
     if request.method == 'POST':
@@ -43,6 +45,7 @@ def update_expense(request, pk):
     return render(request, HOME_TEMPLATE, context)
 
 
+@login_required
 def confirm_delete_expense(request, pk):
     context = get_home_context(request)
     context['delete_id'] = pk
@@ -50,6 +53,7 @@ def confirm_delete_expense(request, pk):
     return render(request, HOME_TEMPLATE, context)
 
 
+@login_required
 def delete_expense(request, pk):
     expense_to_delete = Expense.objects.get(id=pk)
     expense_to_delete.delete()
