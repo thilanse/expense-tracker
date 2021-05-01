@@ -3,10 +3,10 @@ services:
     - docker
 
 before_install:
-    - docker-compose up -t thilanse96/expense-tracker-gunicorn -f ./expense_tracker/docker-compose.yml --build
+    - docker-compose up -d -f ./expense_tracker/docker-compose.yml --build
 
 script:
-    - docker-compose run -d -t thilanse96/expense-tracker-gunicorn python manage.py test
+    - docker-compose run python manage.py test
 
 after_success:
 #script:
