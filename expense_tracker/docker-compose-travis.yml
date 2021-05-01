@@ -1,0 +1,22 @@
+version: "3.3"
+   
+services:
+  db:
+    restart: always
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: "password"
+    ports:
+      - "5433:5432"
+  web:
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8556:8000"
+    depends_on:
+      - db
