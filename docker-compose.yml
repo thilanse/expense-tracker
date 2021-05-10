@@ -10,7 +10,7 @@ services:
       - C:\Users\Thilan Senanayake\Documents\expense_tracker_postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-  django_gunicorn:
+  django:
     restart: always
     volumes:
       - static:/static

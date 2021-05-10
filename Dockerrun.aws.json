@@ -2,9 +2,9 @@
   "AWSEBDockerrunVersion": 2,
   "containerDefinitions": [
     {
-      "name": "django_gunicorn",
+      "name": "django",
       "image": "thilanse96/expense-tracker-gunicorn",
-      "hostname": "django_gunicorn",
+      "hostname": "django",
       "essential": true,
       "memory": 128
     },
