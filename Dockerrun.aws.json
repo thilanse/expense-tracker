@@ -1,0 +1,26 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "django",
+      "image": "thilanse96/expense-tracker-gunicorn",
+      "hostname": "django",
+      "essential": true
+    },
+    {
+      "name": "nginx",
+      "image": "thilanse96/expense-tracker-nginx",
+      "hostname": "nginx",
+      "essential": true,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 80
+        }
+      ],
+      "links": [
+        "django"
+      ]
+    }
+  ]
+}

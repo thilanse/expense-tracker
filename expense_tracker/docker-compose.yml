@@ -1,5 +1,5 @@
 version: "3.3"
-   
+
 services:
   db:
     restart: always
@@ -15,7 +15,17 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    command: python manage.py runserver 0.0.0.0:8000
+    command: bash -c "
+      python manage.py makemigrations
+      && python manage.py migrate
+      && python manage.py runserver 0.0.0.0:8000
+      "
+    environment:
+      - PGDATABASE=postgres
+      - PGUSER=postgres
+      - PGPASSWORD=password
+      - PGHOST=db
+      - PGPORT=5432
     volumes:
       - .:/code
     ports:

@@ -4,12 +4,12 @@ services:
 
 #before_install:
 #    - docker-compose -f ./expense_tracker/docker-compose-travis.yml -d up --build
-
-script:
-    - docker-compose -f ./expense_tracker/docker-compose-travis.yml ./expense_tracker/manage.py test
-
-after_success:
+#
 #script:
+#    - docker-compose -f ./expense_tracker/docker-compose-travis.yml ./expense_tracker/manage.py test
+#
+#after_success:
+script:
     # Build all images
     - docker build -t thilanse96/expense-tracker-gunicorn ./expense_tracker
     - docker build -t thilanse96/expense-tracker-nginx ./nginx
@@ -21,15 +21,14 @@ after_success:
     - docker push thilanse96/expense-tracker-gunicorn
     - docker push thilanse96/expense-tracker-nginx
 
-#deploy:
-#    edge: "true"
-#    provider: elasticbeanstalk
-#    region: us-east-2
-#    app: multi-docker
-#    env: MultiDocker-env
-#    bucket_name: elasticbeanstalk-us-east-2-067269966464
-#    bucket_path: docker-multi
-#    on:
-#        branch: master
-#    access_key_id: $AWS_ACCESS_KEY
-#    secret_access_key: $AWS_SECRET_KEY
+deploy:
+  provider: elasticbeanstalk
+  region: 'ap-south-1'
+  app: 'expense-tracker'
+  env: 'Expensetracker-env'
+  bucket_name: 'elasticbeanstalk-ap-south-1-067269966464'
+  bucket_path: 'expense-tracker'
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
