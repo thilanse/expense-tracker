@@ -20,7 +20,7 @@
         }
       ],
       "links": [
-        "django_gunicorn"
+        "django"
       ],
       "memory": 128
     }
