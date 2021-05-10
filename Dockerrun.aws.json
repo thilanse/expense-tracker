@@ -5,7 +5,8 @@
       "name": "django",
       "image": "thilanse96/expense-tracker-gunicorn",
       "hostname": "django",
-      "essential": true
+      "essential": true,
+      "memory": 128
     },
     {
       "name": "nginx",
@@ -20,7 +21,8 @@
       ],
       "links": [
         "django"
-      ]
+      ],
+      "memory": 128
     }
   ]
 }
