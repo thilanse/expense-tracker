@@ -29,7 +29,7 @@ services:
     ports:
       - "8555:80"
     depends_on:
-      - django_gunicorn
+      - django
 
 volumes:
   static:
