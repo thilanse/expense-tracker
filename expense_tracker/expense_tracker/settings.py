@@ -133,7 +133,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_ROOT = '/static/'
-STATIC_URL = 'static'
+STATIC_URL = os.path.join(BASE_DIR, '..', 'www', 'static')
 
 LOGIN_REDIRECT_URL = 'tracker-home'
 LOGIN_URL = 'login'
