@@ -67,10 +67,10 @@
                 <a href="{% url 'contribution-create' expense.id %}">Add Contribution</a>
 
                 {% if delete_expense_confirmation and selected_id == expense.id %}
-                <a href="{% url 'expense-delete' expense.id %}">Yes</a>
+                <a href="{% url 'event-expense-delete' expense.id %}">Yes</a>
                 <a href="{% url 'expense-balancer' %}">No</a>
                 {% else %}
-                <a href="{% url 'expense-delete-confirmation' expense.id %}">Delete Expense</a>
+                <a href="{% url 'event-expense-delete-confirmation' expense.id %}">Delete Expense</a>
                 {% endif %}
 
                 {% if contribution_form and selected_id == expense.id %}

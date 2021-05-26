@@ -13,7 +13,7 @@ class ExpenseTestCase(TestCase):
     def test_retrieve_expense_1(self):
         expense1 = Expense.objects.get(reason="Badminton")
         self.assertEqual(expense1.reason, 'Badminton')
-        self.assertEqual(expense1.amount, 200)
+        self.assertEqual(expense1.amount, 300)
         self.assertEqual(expense1.user.username, "thilanse")
 
     def test_retrieve_expense_2(self):
