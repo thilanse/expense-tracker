@@ -1,0 +1,15 @@
+a{
+    color: rgb(83, 79, 76);
+}
+
+.event-container{
+    margin-bottom: 20px;
+    background-color: rgb(240, 169, 169);
+    padding: 10px;
+}
+
+.expense-container{
+    margin: 10px 0;
+    background-color: rgb(224, 122, 122);
+    padding: 10px;
+}

@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.db.models import Sum
 from .models import Expense, Tag
 from .forms import ExpenseForm, ExpenseUpdateForm
 
@@ -88,6 +89,7 @@ def get_home_context(request):
     expenses = Expense.objects.filter(user=request.user).order_by('-date_of_expenditure')
     expenses = get_expenses(expenses)
     current_annual_total, current_month_total, previous_annual_total, previous_month_total = get_month_cost(expenses)
+    tag_expenses = get_tag_expenses()
 
     context = {
         'form': form,
@@ -95,9 +97,31 @@ def get_home_context(request):
         'current_annual_cost': current_annual_total,
         'current_month_cost': current_month_total,
         'previous_annual_cost': previous_annual_total,
-        'previous_month_cost': previous_month_total
+        'previous_month_cost': previous_month_total,
+        'tag_expenses_aggregate': tag_expenses
     }
     return context
+
+def get_tag_expenses():
+
+    tags = Tag.objects.all()
+
+    tag_details = []
+    for tag in tags:
+        tag_total = Expense.objects.filter(tags__in=[tag]).aggregate(Sum('amount'))
+        print(tag_total)
+        if tag_total['amount__sum']:
+            tag_info = {}
+            tag_info['tag'] = tag.name
+            tag_info['total'] = tag_total['amount__sum']
+            tag_details.append(tag_info)
+
+    tag_details = sorted(tag_details, key=lambda x: x['total'], reverse=True)
+
+    for detail in tag_details:
+        print(detail['tag'], detail['total'])
+
+    return tag_details
 
 
 def get_expenses(expenses):

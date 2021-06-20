@@ -1,0 +1,250 @@
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+nav li {
+  float: left;
+  color: white;
+  text-align: center;
+  padding: 8px 16px 8px 0px;
+}
+
+nav li a {
+  display: block;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+nav li a:hover {
+  text-decoration: none;
+  color: white
+}
+
+.add-expense-container{
+  background-color: rgb(204, 204, 204);
+  padding: 15px;
+  overflow: hidden;
+  font-size: 18px;
+}
+
+.add-expense-container input[type=number]{
+  width: 100%;
+  border: none;
+  padding: 5px;
+}
+
+.add-expense-container input[type=number]:focus{
+  outline: none;
+}
+
+.add-expense-container input[type=date]{
+  width: 100%;
+  border: none;
+  padding: 5px;
+}
+
+.add-expense-container input[type=date]:focus{
+  outline: none;
+}
+
+.add-expense-container input[type=text]{
+  width: 100%;
+  border: none;
+  padding: 5px;
+}
+
+.add-expense-container input[type=text]:focus{
+  outline: none;
+}
+
+.custom-add-btn{
+  background-color: rgb(59, 170, 68);
+  color: white;
+  float: right;
+  border: none;
+}
+
+.custom-add-btn:hover{
+  background-color: rgb(51, 136, 58);
+  cursor: pointer;
+}
+
+.custom-add-btn:focus{
+  outline: none;
+}
+
+.expense-total-summary-container{
+  margin-top: 20px;
+  background-color: rgb(178, 221, 207);
+  padding: 15px;
+}
+
+.expense-total-summary-container table{
+  width: 100%;
+}
+
+.monthly-expense-container{
+  margin-bottom: 10px;
+}
+
+.monthly-expense-container-header{
+  background-color: rgb(36, 187, 187);
+  padding: 4px 10px 1px 10px;
+}
+
+.monthly-expense-container-content{
+  background-color:  rgb(161, 219, 223);
+  padding: 10px;
+}
+
+.daily-expense-container{
+  /* background-color: rgb(182, 214, 216); */
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 600px;
+}
+
+.daily-expense-container-header{
+  border-bottom: 1px solid black;
+  font-weight: bold;
+}
+
+.daily-expense-table{
+  border-collapse: collapse;
+  /* border: 1px solid black; */
+  width: 100%;
+}
+
+.daily-expense-table tr,td {
+  /* border: 1px solid black; */
+  padding: 5px;
+}
+
+.delete-confirmation{
+  width: 88%;
+}
+
+.delete-confirmation-actions{
+  width: 12%;
+}
+
+.delete-confirmation-actions a {
+  color: black;
+}
+
+.daily-expense-reason{
+  width: 40%;
+}
+
+.daily-expense-reason input[type=text]{
+  width: 100%;
+  border: none;
+  background-color:  rgb(196, 241, 245);
+}
+
+.daily-expense-reason input[type=text]:focus{
+  outline: none;
+}
+
+.daily-expense-amount{
+  width: 20%;
+}
+
+.daily-expense-amount input[type=number]{
+  width: 100%;
+  border: none;
+  background-color:  rgb(196, 241, 245);
+}
+
+.daily-expense-amount input[type=number]:focus{
+  outline: none;
+}
+
+.daily-expense-actions{
+  width: 40%;
+}
+
+.daily-expense-actions a{
+  color: black;
+}
+
+.daily-expense-date{
+  width: 28%;
+}
+
+.daily-expense-date input[type=date]{
+  width: 150px;
+  border: none;
+  background-color:  rgb(196, 241, 245);
+}
+
+.daily-expense-date input[type=date]:focus{
+  outline: none;
+}
+
+.daily-expense-update-actions{
+  width: 12%;
+}
+
+.daily-expense-update-actions a {
+  color: white;
+}
+
+.daily-expense-update-actions button {
+  background-color: green;
+  color: white;
+  padding: 5px 7.5px 4px 7.5px;
+}
+
+.custom-btn{
+  border: none;
+  border-radius: 50%;
+  font-size: x-small;
+}
+
+.cancel-btn{
+  background-color: brown;
+  padding: 5px 9px;
+}
+
+.cancel-btn a {
+  color: white;
+}
+
+#tagsContainer{
+  margin: 0;
+  padding: 0;
+}
+
+/* project add view */
+#tagsContainer li.tag {
+  display: inline-block;
+  background-color: #333;
+  color: white;
+  font-size: 16px;
+  padding: 1px 6px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+#tagsContainer li.tag .btnRemove:hover {
+  cursor: pointer;
+}
+
+.tag-total-summary-container{
+  margin-top: 20px;
+  background-color: rgb(198, 178, 221);
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.tag-total-summary-container table{
+  width: 100%;
+}
