@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Event, Expense, Contributor, Contribution
 from .forms import EventForm, ExpenseForm, ContributorForm, ContributionForm
 
-HOME_TEMPLATE = 'expense_balancer/expense_balancer.html'
+HOME_TEMPLATE = 'expense_balancer.html'
 
 
 @login_required

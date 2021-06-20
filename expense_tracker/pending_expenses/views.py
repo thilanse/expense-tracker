@@ -44,7 +44,7 @@ def home(request):
         "form": form,
     }
 
-    return render(request, "pending_expenses/pending_expenses.html", context)
+    return render(request, "pending_expenses.html", context)
 
 
 def add_pending_expense(request):

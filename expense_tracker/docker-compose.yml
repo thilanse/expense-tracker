@@ -20,15 +20,6 @@ services:
       && python manage.py migrate
       && python manage.py runserver 0.0.0.0:8000
       "
-    environment:
-      - PGDATABASE=postgres
-      - PGUSER=postgres
-      - PGPASSWORD=password
-      - PGHOST=db
-      - PGPORT=5432
-      - DEBUG=True
-      - SECRET_KEY=sdfasfdsf
-      - DJANGO_SETTINGS_MODULE=expense_tracker.settings.development
     volumes:
       - .:/code
     ports:

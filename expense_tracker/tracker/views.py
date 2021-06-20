@@ -1,13 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Expense
+from .models import Expense, Tag
 from .forms import ExpenseForm, ExpenseUpdateForm
 
 import itertools
 import calendar
 import datetime
 
-HOME_TEMPLATE = 'tracker/home.html'
+HOME_TEMPLATE = 'home.html'
 
 
 @login_required
@@ -22,7 +22,24 @@ def add_expense(request):
         form.instance.user = request.user
 
         if form.is_valid():
-            form.save()
+            amount = form.cleaned_data['amount']
+            reason = form.cleaned_data['reason']
+            date_of_expenditure = form.cleaned_data['date_of_expenditure']
+
+            expense = Expense.objects.create(
+                amount=amount,
+                reason=reason,
+                date_of_expenditure=date_of_expenditure,
+                user=request.user
+            )
+
+            for tag in request.POST['tagsString'].split(","):
+                tag = tag.strip().lower()
+                tag, _ = Tag.objects.get_or_create(name=tag)
+                expense.tags.add(tag)
+
+            expense.save()
+
     return redirect('tracker-home')
 
 
