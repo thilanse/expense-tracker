@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+    <div class="auth-container login-container">
+        <legend class="border-bottom mb-4">Login</legend>
+        <!-- <h3>Register Here</h3> -->
+        <form method="POST">
+
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <td>
+                        <label for="id_username">Username:</label>
+                    </td>
+                    <td>
+                        <input class="auth-input" type="text" name="username" autofocus autocapitalize="none"
+                               autocomplete="username" maxlength="150" required id="id_username">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="id_password">Password:</label>
+                    </td>
+                    <td>
+                        <input class="auth-input" type="password" name="password" autocomplete="current-password"
+                               required id="id_password">
+                    </td>
+                </tr>
+<!--                <tr>-->
+<!--                    <td colspan="2">-->
+<!--                        <ul class="errorlist nonfield">-->
+<!--                            <li>Please enter a correct username and password. Note that both fields may be-->
+<!--                                case-sensitive.-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </td>-->
+<!--                </tr>-->
+            </table>
+            <div class="error-messages">
+                <ul class="errorlist nonfield">
+                    <li>Please enter a correct username and password.</li>
+                    <li>Note that both fields may be case-sensitive.</li>
+                </ul>
+            </div>
+
+            <button type="submit" class="auth-btn login-btn">Login</button>
+            <div class="border-top pt-3">
+                <small class="text-muted">
+                    Need an account? <a href="{% url 'register' %}" class="ml-2">Register Here</a>
+                </small>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+{% endblock content %}

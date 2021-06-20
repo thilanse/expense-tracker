@@ -162,3 +162,4 @@ Thumbs.db
 # End of https://www.toptal.com/developers/gitignore/api/django
 /expense_tracker/static/
 /expense_tracker/data_backups/
+/expense_tracker/expense_tracker/static/font-awesome/
