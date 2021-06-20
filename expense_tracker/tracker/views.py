@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
+from django.http import JsonResponse
 from .models import Expense, Tag
 from .forms import ExpenseForm, ExpenseUpdateForm
 
@@ -118,9 +119,6 @@ def get_tag_expenses():
 
     tag_details = sorted(tag_details, key=lambda x: x['total'], reverse=True)
 
-    for detail in tag_details:
-        print(detail['tag'], detail['total'])
-
     return tag_details
 
 
@@ -202,3 +200,13 @@ def get_month_cost(expenses):
 
     return current_annual_expense['total_annual_cost'], current_monthly_expense['total_monthly_cost'], \
            previous_annual_cost['total_annual_cost'], previous_month_cost['total_monthly_cost']
+
+
+def tag_autocomplete(request):
+    
+    if 'term' in request.GET:
+        qs = Tag.objects.filter(name__icontains=request.GET['term'])
+        tag_names = [tag.name for tag in qs]
+        return JsonResponse(tag_names, safe=False)
+
+    return redirect('tracker-home')

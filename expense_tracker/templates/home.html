@@ -130,6 +130,14 @@
     </div>
 </div>
 
+<script>
+    $( function() {
+      $( "#tagInput" ).autocomplete({
+        source: "{% url 'tag-autocomplete' %}"
+      });
+    } );
+</script>
+
 <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
 
 {% endblock content%}

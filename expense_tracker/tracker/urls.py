@@ -11,6 +11,7 @@ urlpatterns = [
     path('api/expenses/', api_views.expense_list),
     path('api/expenses/<int:pk>/', api_views.expense_detail),
     path('api-auth/', include('rest_framework.urls')),
-    path('api/authenticate/', api_views.CustomAuthToken.as_view())
+    path('api/authenticate/', api_views.CustomAuthToken.as_view()),
+    path('tag_autocomplete/', views.tag_autocomplete, name='tag-autocomplete'),
 ]
 
