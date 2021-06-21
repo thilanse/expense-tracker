@@ -17,6 +17,17 @@ def home(request):
     return render(request, HOME_TEMPLATE, get_home_context(request))
 
 
+def expense_for_year(request, year, month):
+
+    expenses = Expense.objects.filter(date_of_expenditure__year=year, date_of_expenditure__month=month)
+
+    context = get_home_context(request)
+    context['expenses'] = get_expenses(expenses)
+    
+    return render(request, HOME_TEMPLATE, context) 
+
+
+
 @login_required
 def add_expense(request):
     if request.method == 'POST':
@@ -110,7 +121,6 @@ def get_tag_expenses():
     tag_details = []
     for tag in tags:
         tag_total = Expense.objects.filter(tags__in=[tag]).aggregate(Sum('amount'))
-        print(tag_total)
         if tag_total['amount__sum']:
             tag_info = {}
             tag_info['tag'] = tag.name
