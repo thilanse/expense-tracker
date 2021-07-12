@@ -14,7 +14,20 @@ HOME_TEMPLATE = 'home.html'
 
 @login_required
 def home(request):
-    return render(request, HOME_TEMPLATE, get_home_context(request))
+
+    context = get_home_context(request)
+
+    if 'selected_month' in request.GET:
+        selected_month = request.GET['selected_month']
+        
+        if selected_month == '':
+            return redirect('tracker-home')
+            
+        year, month = selected_month.split('-')
+        expenses = Expense.objects.filter(date_of_expenditure__year=year, date_of_expenditure__month=month)
+        context['expenses'] = get_expenses(expenses)
+
+    return render(request, HOME_TEMPLATE, context)
 
 
 def expense_for_year(request, year, month):

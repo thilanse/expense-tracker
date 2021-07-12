@@ -163,3 +163,15 @@ Thumbs.db
 /expense_tracker/static/
 /expense_tracker/data_backups/
 /expense_tracker/expense_tracker/static/font-awesome/
+/expense_tracker/.idea
+/expense_tracker/.vscode
+
+.vscode
+.idea
+
+aws-details.txt
+.gitignore
+
+db_dump.sql
+otherusers.txt
+superuser.txt
