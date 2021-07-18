@@ -1,0 +1,54 @@
+.add-expense-panel {
+    background-color: rgb(154, 196, 197);
+}
+
+.add-expense-panel .sidebar-panel-header {
+    background-color: rgb(124, 169, 170);
+}
+
+.expense-totals-panel {
+    background-color: rgb(199, 223, 160);
+}
+
+.pending-expenses-panel {
+    background-color: rgb(228, 209, 184);
+}
+
+.pending-expense-item {
+    margin-bottom: 10px;
+}
+
+.pending-expense-item table {
+    padding: 0;
+    width: 100%;
+}
+
+.pending-expense-item table td {
+    padding: 5px;
+    width: 30%;
+}
+
+.pending-expense-item table td:last-child{
+    text-align: right;
+}
+
+.pending-expenses-panel .sidebar-panel-header {
+    background-color: rgb(209, 192, 172);
+}
+
+.pending-expenses-panel .pending-expense-item {
+    background-color: rgb(226, 215, 202);
+}
+
+.completed-expenses-panel {
+    background-color: rgb(142, 189, 142);
+}
+
+.completed-expenses-panel .sidebar-panel-header {
+    background-color: rgb(112, 175, 112);
+}
+
+.completed-expenses-panel .pending-expense-item {
+    background-color: rgb(161, 202, 161);
+}
+

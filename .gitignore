@@ -165,6 +165,8 @@ Thumbs.db
 /expense_tracker/expense_tracker/static/font-awesome/
 /expense_tracker/.idea
 /expense_tracker/.vscode
+/expense_tracker/tracker/_pycache_
+
 
 .vscode
 .idea
