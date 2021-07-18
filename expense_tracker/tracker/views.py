@@ -111,7 +111,7 @@ def get_home_context(request):
     """
 
     form = ExpenseForm()
-    expenses = Expense.objects.filter(user=request.user).order_by('-date_of_expenditure')
+    expenses = Expense.objects.filter(user=request.user, purchased=True).order_by('-date_of_expenditure')
     expenses = get_expenses(expenses)
     current_annual_total, current_month_total, previous_annual_total, previous_month_total = get_month_cost(expenses)
     tag_expenses = get_tag_expenses()

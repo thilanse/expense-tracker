@@ -7,21 +7,60 @@
 
     <h3>Pending Expenses</h3>
 
-    <h4>Total cost: {{ total }}</h4>
+    <div class="row">
+        <div class="col-4">
+            <div class="sidebar-panel">
+                <div class="sidebar-panel-header">
+                    <p>Add New Pending Expense</p>
+                </div>
+                <div class="sidebar-panel-content">
+                    <form action="{% url 'pending-expense-create' %}" method="POST">
+                        {% csrf_token %}
 
-    <form action="{% url 'pending-expense-create' %}" method="POST">
-        {% csrf_token %}
-        <div class="row">
-            <div class="col">{{ form.reason }}</div>
-            <div class="col">{{ form.amount }}</div>
-            <button type="submit" class="custom-add-btn">Add</button>
+                        <div class="row">
+                            <div class="col">{{ form.amount }}</div>
+                            <div class="col">{{ form.date_of_expenditure }}</div>
+                        </div>
+                        {{ form.reason }}
+                        <input type="text" id="tagInput" name="tagInput" class="mb-3" placeholder="Insert a tag and press enter"/>
+                        <input type="hidden" id="tagsString" name="tagsString" class="mb-3"/>
+                        
+                        <ul id="tagsContainer">
+
+                        </ul>
+
+                        <div style="width: 100%; text-align: right;">
+                            <button type="submit" class="custom-add-btn">Add</button>
+                        </div>
+                    </form>
+               </div>
+            </div>
+            <div class="sidebar-panel">
+                <div class="sidebar-panel-content">
+                    <p>Total cost: {{ total }}</p>
+                </div>
+            </div>
         </div>
 
-    </form>
+        <div class="col-8">
+            {% for expense in pending_expenses %}
+                <div>{{ expense.reason }}</div>
+            {% endfor %}
+        </div>
 
-    {% for expense in pending_expenses %}
-    <div>{{ expense.expense }}</div>
-    {% endfor %}
+    </div>
+    
 </div>
+
+<script>
+    $( function() {
+      $( "#tagInput" ).autocomplete({
+        source: "{% url 'tag-autocomplete' %}"
+      });
+    } );
+</script>
+
+<script type="text/javascript" src="{% static 'js/script.js' %}"></script>
+
 
 {% endblock content%}

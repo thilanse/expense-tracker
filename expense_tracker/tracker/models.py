@@ -14,6 +14,8 @@ class Expense(models.Model):
     amount = models.FloatField()
     reason = models.CharField(max_length=100)
     date_of_expenditure = models.DateTimeField(default=timezone.now)
+    purchased = models.BooleanField(default=True)
+    is_pending = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     tags = models.ManyToManyField(Tag)
 

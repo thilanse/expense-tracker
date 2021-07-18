@@ -8,7 +8,7 @@ class ExpenseForm(forms.ModelForm):
         fields = ['amount', 'reason', 'date_of_expenditure']
         widgets = {
             'amount': forms.NumberInput(attrs={'class': 'add-form-field', 'placeholder': 'Amount'}),
-            'reason': forms.TextInput(attrs={'class': 'add-form-field mt-3 mb-3', 'placeholder': 'Reason'}),
+            'reason': forms.TextInput(attrs={'class': 'add-form-field', 'placeholder': 'Reason'}),
             'date_of_expenditure': forms.DateInput(attrs={'type': 'date', 'class': 'add-form-field'})
         }
 

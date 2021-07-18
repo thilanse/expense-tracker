@@ -1,42 +1,18 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .models import PendingExpense
-from .forms import PendingExpenseForm
+from tracker.models import Expense
+from tracker.forms import ExpenseForm
 
 
 @login_required
 def home(request):
 
-    form = PendingExpenseForm()
+    form = ExpenseForm()
     pending_expenses = get_pending_expenses(request)
-    # pending_expenses = [
-    #     {
-    #         "id": 1,
-    #         "expense": "Car stereo system",
-    #         "amount": 15000,
-    #         "purchased": False
-    #     },
-    #     {
-    #         "id": 2,
-    #         "expense": "Sunglasses",
-    #         "amount": 8000,
-    #         "purchased": False
-    #     },
-    #     {
-    #         "id": 3,
-    #         "expense": "Splippers",
-    #         "amount": 2000,
-    #         "purchased": False
-    #     },
-    #     {
-    #         "id": 4,
-    #         "expense": "Shoes",
-    #         "amount": 6000,
-    #         "purchased": False
-    #     }
-    # ]
+    
+    # total_cost = sum([item['amount'] for item in pending_expenses])
 
-    total_cost = sum([item['amount'] for item in pending_expenses])
+    total_cost = sum(expense.amount for expense in pending_expenses)
 
     context = {
         "pending_expenses": pending_expenses,
@@ -49,24 +25,28 @@ def home(request):
 
 def add_pending_expense(request):
     if request.method == 'POST':
-        form = PendingExpenseForm(request.POST)
+        form = ExpenseForm(request.POST)
         form.instance.user = request.user
 
         if form.is_valid():
+            form.instance.purchased = False
+            form.instance.is_pending = True
             form.save()
 
     return redirect('pending-expenses')
 
 
 def get_pending_expenses(request):
-    pending_expenses = PendingExpense.objects.filter(user=request.user)
+    pending_expenses = Expense.objects.filter(user=request.user, is_pending=True)
 
-    expenses = []
-    for expense in pending_expenses:
-        item = {}
-        item['expense'] = expense.reason
-        item['amount'] = expense.amount
-        item['purchased'] = expense.purchased
-        expenses.append(item)
+    # expenses = []
+    # for expense in pending_expenses:
+    #     item = {}
+    #     item['expense'] = expense.reason
+    #     item['amount'] = expense.amount
+    #     item['purchased'] = expense.purchased
+    #     expenses.append(item)
 
-    return expenses
+    expenses = pending_expenses
+
+    return pending_expenses
