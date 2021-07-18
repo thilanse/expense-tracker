@@ -9,7 +9,7 @@
 
     <div class="row">
         <div class="col-4">
-            <div class="sidebar-panel">
+            <div class="sidebar-panel add-expense-panel">
                 <div class="sidebar-panel-header">
                     <p>Add New Pending Expense</p>
                 </div>
@@ -35,17 +35,70 @@
                     </form>
                </div>
             </div>
-            <div class="sidebar-panel">
+            <div class="sidebar-panel expense-totals-panel">
                 <div class="sidebar-panel-content">
-                    <p>Total cost: {{ total }}</p>
+                    <p>Total pending cost: {{ total_pending }}</p>
+                    <p>Total completed cost: {{ total_completed }}</p>
                 </div>
             </div>
         </div>
 
-        <div class="col-8">
-            {% for expense in pending_expenses %}
-                <div>{{ expense.reason }}</div>
-            {% endfor %}
+        <div class="col-4">
+            <div class="sidebar-panel pending-expenses-panel">
+                <div class="sidebar-panel-header">
+                    <p>Pending Expenses</p>
+                </div>
+                <div class="sidebar-panel-content">
+                    {% if not pending_expenses %}
+                    <div>No pending expenses</div>
+                    {% endif %}
+                    {% for expense in pending_expenses %}
+                        <div class="pending-expense-item">
+                            <table>
+                                <tr>
+                                    <td>
+                                        {{ expense.reason }}
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'pending-expense-complete' expense.id %}">Complete</a>
+                                        <a href="#">Delete</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4">
+            <div class="sidebar-panel completed-expenses-panel">
+                <div class="sidebar-panel-header">
+                    <p>Completed Expenses</p>
+                </div>
+                <div class="sidebar-panel-content">
+                    {% if not completed_expenses %}
+                    <div>No completed expenses</div>
+                    {% endif %}
+
+                    {% for expense in completed_expenses %}
+                        <div class="pending-expense-item">
+                            <table>
+                                <tr>
+                                    <td>
+                                        {{ expense.reason }}
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'pending-expenses-undo' expense.id %}">Undo</a>
+                                        <a href="#">Delete</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    {% endfor %}
+                    
+                </div>
+            </div>
         </div>
 
     </div>

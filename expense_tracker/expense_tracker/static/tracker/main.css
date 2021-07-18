@@ -36,10 +36,26 @@ nav li a:hover {
   font-size: 18px;
 }
 
+.btn {
+  border: none;
+  border-radius: 0%;
+  padding: 3px 5px;
+}
+
+.btn:hover {
+  cursor: pointer;
+}
+
+.btn:visited,
+.btn:active,
+.btn:focus{
+  outline: none !important;
+  box-shadow: none;
+}
+
 .sidebar-panel {
   margin-bottom: 20px;
   font-size: 16px;
-  background-color: rgb(90, 125, 126);
 }
 
 .sidebar-panel-header{

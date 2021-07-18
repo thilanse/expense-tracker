@@ -2,19 +2,31 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from tracker.models import Expense, Tag
 from tracker.forms import ExpenseForm
+from datetime import date, datetime
 
 
 @login_required
 def home(request):
 
     form = ExpenseForm()
-    pending_expenses = get_pending_expenses(request)
+    expenses = get_pending_expenses(request)
+
+    pending_expenses = []
+    completed_expenses = []
+    for expense in expenses:
+        if expense.purchased:
+            completed_expenses.append(expense)
+        else:
+            pending_expenses.append(expense)
     
-    total_cost = sum(expense.amount for expense in pending_expenses)
+    total_pending_cost = sum(expense.amount for expense in pending_expenses)
+    total_completed_cost = sum(expense.amount for expense in completed_expenses)
 
     context = {
         "pending_expenses": pending_expenses,
-        "total": total_cost,
+        "completed_expenses": completed_expenses,
+        "total_pending": total_pending_cost,
+        "total_completed": total_completed_cost,
         "form": form,
     }
 
@@ -55,3 +67,20 @@ def get_pending_expenses(request):
     pending_expenses = Expense.objects.filter(user=request.user, is_pending=True)
 
     return pending_expenses
+
+def complete(request, pk):
+
+    expense = Expense.objects.get(pk=pk)
+    expense.purchased = True
+    expense.date_of_expenditure = datetime.now()
+    expense.save()
+
+    return redirect('pending-expenses')
+
+def undo(request, pk):
+
+    expense = Expense.objects.get(pk=pk)
+    expense.purchased = False
+    expense.save()
+
+    return redirect('pending-expenses')
