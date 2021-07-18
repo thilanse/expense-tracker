@@ -1,3 +1,7 @@
+p {
+  margin: 0;
+}
+
 nav ul {
   list-style-type: none;
   margin: 0;
@@ -28,15 +32,35 @@ nav li a:hover {
 
 .add-expense-container{
   background-color: rgb(204, 204, 204);
-  /* padding: 15px; */
   overflow: hidden;
   font-size: 18px;
 }
 
-.side-bar-panel-header{
+.sidebar-panel {
+  margin-bottom: 20px;
+  font-size: 16px;
+  background-color: rgb(90, 125, 126);
+}
+
+.sidebar-panel-header{
   padding: 3px 8px 3px 8px;
   font-size: 16px;
   font-weight: bold;
+}
+
+.sidebar-panel-content {
+  padding: 15px;
+}
+
+.sidebar-panel input{
+  width: 100%;
+  border: none;
+  padding: 5px;
+  margin-bottom: 20px;
+}
+
+.sidebar-panel input:focus {
+  outline: none;
 }
 
 .add-expense-container-header{
@@ -327,4 +351,7 @@ nav li a:hover {
 .search-bar .search-btn:hover{
   background-color: rgb(100, 170, 59);
 }
+
+
+
 
